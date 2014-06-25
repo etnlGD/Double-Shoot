@@ -140,7 +140,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addDeadBehavior(
-				newBulletReward(3, "ScatterReward", "MissileReward", "ParallelReward"));
+				newBulletReward(4, "ScatterReward", "MissileReward", "ParallelReward"));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
