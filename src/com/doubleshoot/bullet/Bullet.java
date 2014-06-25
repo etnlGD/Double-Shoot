@@ -27,6 +27,7 @@ public class Bullet extends GameObject implements Harmful {
 			BulletListener pListener) {
 		super(body, attachToBulletParent(pEnv, pBulletShape), pEnv);
 		
+		body.setBullet(true);
 		assert(pBulletShape != null);
 		mDamage = damage;
 		mPenetrating = penetrating;

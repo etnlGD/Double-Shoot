@@ -58,7 +58,7 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		mTroopGenerator = RandomTroopGenerator.create();
 		mHeroDeadListener = new HeroDeadListener(1, this);
 		
-		BodyBuilder builder = SimpleBodyBuilder.newBox(CAMERA_WIDTH, 10,
+		BodyBuilder builder = SimpleBodyBuilder.newBox(CAMERA_WIDTH, CAMERA_HEIGHT/2,
 				FixtureFactory.sensor(GameObjectType.AllEnemyObject.getSharedFilter()));
 		
 		mBarrierFactory = BarrierObject.newFactory(builder, null);

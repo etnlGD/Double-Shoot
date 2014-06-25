@@ -228,8 +228,18 @@ public class GameActivity extends BaseGameActivity
 		pScene.registerUpdateHandler(contactResolver);
 		final GOEnvironment pEnv = new GOEnvironment(mEngine, pScene, world);
 
-		// Create border
-		Border.create(pEnv, new Vector2(), CAMERA_WIDTH, CAMERA_HEIGHT);
+		// Create borders
+		Border.create(pEnv, new Vector2(
+				CAMERA_WIDTH/2, CAMERA_HEIGHT/2),
+				CAMERA_WIDTH, CAMERA_HEIGHT);
+		
+		Border.create(pEnv, new Vector2(
+				CAMERA_WIDTH/2, CAMERA_HEIGHT/2),
+				CAMERA_WIDTH*1.1f, CAMERA_HEIGHT*1.2f);
+		
+		Border.create(pEnv, new Vector2(
+				CAMERA_WIDTH/2, CAMERA_HEIGHT/2),
+				CAMERA_WIDTH * 2f, CAMERA_HEIGHT * 2f);
 		
 		ITexture explosion = mTextureFactory.loadTexture("explosion.jpg");
 		ITextureRegion region = titledTexture(explosion, 6, 3);

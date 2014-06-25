@@ -97,7 +97,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 				checkShape(vbom, regions, "Alien.Blue"), newBodyFactory(3, 16));
 		Barrel b = new Barrel(
 				new RandomDirectionDistribution(75, 105),
-				mBulletRegistry.getFilteredFactory("BlueRound"));
+				mBulletRegistry.getFilteredFactory("RedRound"));
 		b.setFrozenCycle(1.4f);
 		b.setBarrelPosition(16, 16);
 		af.setBarrel(0, b);

@@ -24,19 +24,15 @@ public class Border extends GameObject {
 
 	@Override
 	protected int onContactEnd(GameObject other, int param) {
-		if (!other.hasTag(TagManager.sCrossBorderRight))
-			other.destroy();
-		
+		other.destroy();
 		return 0;
 	}
 	
-	public static GameObject create(GOEnvironment env, Vector2 origin, float width, float height) {
+	public static GameObject create(GOEnvironment env, Vector2 pos, float width, float height) {
 		Filter f = GameObjectType.AllObject.getSharedFilter();
 		FixtureDef fDef = FixtureFactory.sensor(f);
 		BodyBuilder bodyBuilder = SimpleBodyBuilder.newBox(width, height, fDef);
-		float hw = width/2, hh = height/2;
 		
-		Vector2 pos = new Vector2(origin.x + hw, origin.y + hh);
 		Body body = bodyBuilder.createBody(env.getWorld(), BodyType.StaticBody, pos, 0);
 		bodyBuilder.dispose();
 		

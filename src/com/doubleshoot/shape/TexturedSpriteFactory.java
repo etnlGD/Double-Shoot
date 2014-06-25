@@ -61,6 +61,7 @@ public class TexturedSpriteFactory implements ShapeFactory {
 	}
 	
 	private void onShapeRecycled(IAreaShape shape) {
+		Log.i("TextureSpriteFactory", "Recycled one: " + textureName + ", rest: " + mFreeList.size());
 		mFreeList.add(shape);
 		shape.reset();
 		shape.clearUpdateHandlers();

@@ -46,7 +46,9 @@ public abstract class GameObject extends TaggedObject {
 	
 	public void destroy() {
 		if (mShape != null) {
-			mShape.detachSelf();
+			if (!mShape.detachSelf())
+				throw new IllegalStateException("No parent");
+			
 			getWorld().unregisterPhysicsConnector(mConnector);
 			
 			mShape = null;

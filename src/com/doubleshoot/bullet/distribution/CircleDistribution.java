@@ -22,7 +22,7 @@ public class CircleDistribution extends CountableBulletDistribution {
 
 	@Override
 	public Vector2 getBulletPosition(int index) {
-		return getBulletVelocity(index).mul(mRadius);
+		return getBulletVelocity(index).mul(0);
 	}
 
 	@Override
