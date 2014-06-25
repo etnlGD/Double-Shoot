@@ -151,22 +151,4 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		callback.onNewFactory(AlienType.REVENGER, loadWhite(vbom, regions));
 	}
 
-//	private Path newZPath(float x0, float y0) {
-//		float hGap = 150;
-//		float xMin = 20;
-//		float xMax = 780;
-//
-//		float x1 = MathUtils.randomSign() > 0 ? xMin : xMax;
-//		float x2 = x1 == xMin ? xMax : xMin;
-//		float y = Math.abs(x0 - x1)/(xMax - xMin) * hGap;
-//
-//		Path path = new Path(6);
-//		for (int i = 0; i < path.getSize(); i+=2) {
-//			path.to(x1, y);
-//			path.to(x2, y + hGap);
-//			y += 2 * hGap;
-//		}
-//
-//		return path;
-//	}
 }

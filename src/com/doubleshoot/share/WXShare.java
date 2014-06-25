@@ -31,9 +31,9 @@ public class WXShare {
 		if (!mApi.isWXAppInstalled()) {
 			onWXNotInstalled();
 		}
-		
+		//
 		mApi.registerApp(getString(R.string.wx_app_id));
-		
+		//
 		WXMediaMessage msg = new WXMediaMessage();
 		WXImageObject imgObj = new WXImageObject(bmp);
 		msg.mediaObject = imgObj;

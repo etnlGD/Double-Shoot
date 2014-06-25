@@ -61,7 +61,7 @@ public class ScreenShot implements IDrawHandler {
 			notifyScreeenSaved();
 		}
 	}
-	
+	//
 	private boolean shouldSaveImage() {
 		return mPicSavePending && mBitmap == null; 
 	}

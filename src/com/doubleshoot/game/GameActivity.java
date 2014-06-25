@@ -99,8 +99,6 @@ public class GameActivity extends BaseGameActivity
 	
 	private Game mGame;
 	private GameStatusScene mHud;
-	ScreenShot mLeftShot;
-	ScreenShot mRightShot;
 	private WXShare mShare;
 	private SE mSoundSet;
 	private ScreenCapture mScreenCapture;
@@ -261,6 +259,7 @@ public class GameActivity extends BaseGameActivity
 		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
 		mScreenCapture = new ScreenCapture(mEngine, getAssets(), this);
 		heroBehaviors.addDeadBehavior(mScreenCapture);
+		// TODO
 		heroPipeline.addFilter(heroBehaviors);
 		
 		GORegistry<Bullet> bulletRegistry = new ConcreteGORegistry<Bullet>();
