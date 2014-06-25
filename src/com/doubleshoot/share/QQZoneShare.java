@@ -7,4 +7,4 @@ public class QQZoneShare {
 	public static void share() {
 		Bundle bundle = new Bundle();
 	}
-}
+}

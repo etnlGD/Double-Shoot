@@ -36,5 +36,4 @@ public class CachedTextureFactory implements ITextureFactory {
 		
 		return texture;
 	}
-
-}
+}

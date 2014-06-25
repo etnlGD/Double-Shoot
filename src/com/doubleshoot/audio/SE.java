@@ -19,13 +19,29 @@ public class SE {
 		mSounds = new HashMap<String, Sound>();
 	}
 
-	public Sound load(String pPath) throws IOException {
+// <<<<<<< HEAD
+// 	public Sound load(String pPath) throws IOException {
+// 		Sound sound = SoundFactory.createSoundFromAsset(
+// 				mContext.getSoundManager(), mContext, mBase + pPath);
+// 		return sound;
+// 	}
+
+// 	public Sound get(String pPath) {
+// 		return mSounds.get(pPath);
+// =======
+	public Sound put(String pPath, float pVolume) throws IOException {
+		return put(pPath.substring(0, pPath.indexOf(".")), pPath, pVolume);
+	}
+	
+	public Sound put(String name, String pPath, float pVolume) throws IOException {
 		Sound sound = SoundFactory.createSoundFromAsset(
 				mContext.getSoundManager(), mContext, mBase + pPath);
+		sound.setVolume(pVolume);
+		mSounds.put(name, sound);
 		return sound;
 	}
 
-	public Sound get(String pPath) {
-		return mSounds.get(pPath);
+	public Sound get(String name) {
+		return mSounds.get(name);
 	}
 }

@@ -20,4 +20,4 @@ public class EntityCoordinate {
 		return target.sub(origin[0], origin[1]);
 	}
 	
-}
+}

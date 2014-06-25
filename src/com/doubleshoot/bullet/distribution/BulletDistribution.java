@@ -13,4 +13,4 @@ public interface BulletDistribution {
 	public Vector2 getBulletPosition(int index);
 	
 	public BulletDistribution copy();
-}
+}

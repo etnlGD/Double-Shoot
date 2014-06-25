@@ -34,6 +34,4 @@ public class ScatterDistribution extends CountableBulletDistribution {
 		return new ScatterDistribution(mMinAngle, mMaxAngle, getBulletCount());
 	}
 	
-	
-
-}
+}

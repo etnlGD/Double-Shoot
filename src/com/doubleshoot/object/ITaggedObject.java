@@ -14,4 +14,4 @@ public interface ITaggedObject {
 	
 	public boolean hasTag(String tag);
 	
-}
+}

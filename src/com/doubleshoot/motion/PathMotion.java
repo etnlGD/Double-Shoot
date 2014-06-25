@@ -19,7 +19,7 @@ public class PathMotion implements IMotion {
 	public IUpdateHandler createMotionModifier(IMovable pMovable) {
 		return new Status(pMovable);
 	}
-	
+
 	private class Status implements IUpdateHandler {
 		private int mNextDest;
 		private Vector2 mPrevPosition;
@@ -70,5 +70,4 @@ public class PathMotion implements IMotion {
 			
 		}
 	}
-
-}
+}

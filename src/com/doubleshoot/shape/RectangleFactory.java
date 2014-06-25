@@ -26,4 +26,4 @@ public class RectangleFactory implements ShapeFactory {
 		return shape;
 	}
 
-}
+}

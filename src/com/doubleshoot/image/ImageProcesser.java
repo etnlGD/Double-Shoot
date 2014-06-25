@@ -10,8 +10,8 @@ public class ImageProcesser {
 		height= height<= 0 ? src.getHeight(): height;
 		
 		int color;
-		for (int dy = 0; dy < width; ++dy) {
-			for (int dx = 0; dx < height; ++dx) {
+		for (int dy = 0; dy < height; ++dy) {
+			for (int dx = 0; dx < width; ++dx) {
 				color = src.getPixel(srcX + dx, srcY + dy);
 				dst.setPixel(dstX + dx, dstY + dy, color);
 			}
@@ -39,8 +39,9 @@ public class ImageProcesser {
 		Bitmap result = Bitmap.createBitmap(width, height, left.getConfig());
 
 		copyRect(left, result, 0, 0, 0, 0, left.getWidth()/2, -1);
-		copyRect(center, result, 0, 0, line2, 0, -1, -1);
-		copyRect(right, result, right.getWidth()/2, 0, line2, 0, right.getWidth()/2, -1);
+		copyRect(center, result, 0, 0, line1, 0, -1, -1);
+		copyRect(right, result, right.getWidth()/2, 0, line2, 0, 
+				(right.getWidth() -right.getWidth()/2), -1);
 		return result;
 	}
 }

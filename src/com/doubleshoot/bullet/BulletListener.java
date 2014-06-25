@@ -8,4 +8,6 @@ public interface BulletListener {
 	
 	public void onCollision(Bullet pBullet, GameObject pCollided);
 	
-}
+	public void onShooted(Bullet bullet);
+	
+}

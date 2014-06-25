@@ -32,4 +32,4 @@ public class TaggedObject implements ITaggedObject {
 		return mTags;
 	}
 	
-}
+}

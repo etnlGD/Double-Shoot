@@ -53,4 +53,4 @@ public class ParrallelDistribution implements BulletDistribution {
 		return copy;
 	}
 
-}
+}

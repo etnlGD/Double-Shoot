@@ -12,7 +12,6 @@ public enum GameObjectType {
 	AllEnemyObject(64, 1|2|16),
 	AllObject(-1, -1);
 	
-	
 	GameObjectType(int category, int mask) {
 		mFilter = new Filter();
 		mFilter.categoryBits = (short) category;

@@ -9,6 +9,7 @@ import com.doubleshoot.motion.UniformVelocityMotion;
 import com.doubleshoot.object.ITaggedObject;
 import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.GameObjectType;
+import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
 
 public class RevengeBehavior implements IBehavior {
@@ -58,4 +59,4 @@ public class RevengeBehavior implements IBehavior {
 			}
 		}
 	}
-}
+}

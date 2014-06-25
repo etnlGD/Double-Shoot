@@ -206,4 +206,4 @@ public class DigitBit implements IModifierListener<IEntity>, HudItem {
 			t.detachSelf();
 		}
 	}
-}
+}

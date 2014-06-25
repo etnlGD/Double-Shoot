@@ -73,4 +73,4 @@ public class ExplosionBehavior implements IBehavior, IAnimationListener {
 			}
 		});
 	}
-}
+}

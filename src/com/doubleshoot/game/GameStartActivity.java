@@ -276,4 +276,8 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 		startActivity(startGame);
 	}
     
-}
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03

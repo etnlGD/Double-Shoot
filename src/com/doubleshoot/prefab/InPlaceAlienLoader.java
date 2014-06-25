@@ -12,6 +12,7 @@ import com.doubleshoot.alien.AlienFactory;
 import com.doubleshoot.alien.DeadBulletBehavior;
 import com.doubleshoot.alien.RevengeBehavior;
 import com.doubleshoot.behavior.BombBehavior;
+import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.body.BodyBuilder;
 import com.doubleshoot.body.BodyFactory;
 import com.doubleshoot.bullet.Barrel;
@@ -21,6 +22,8 @@ import com.doubleshoot.object.GOFactory;
 import com.doubleshoot.object.GOFactoryLoader;
 import com.doubleshoot.object.GOPipeline;
 import com.doubleshoot.object.GORegistry;
+import com.doubleshoot.reward.RandomBulletReward;
+import com.doubleshoot.reward.Reward;
 import com.doubleshoot.shape.ShapeFactory;
 import com.doubleshoot.shape.TexturedSpriteFactory;
 import com.doubleshoot.shooter.ContinuousShootPolicy;
@@ -31,12 +34,15 @@ import com.doubleshoot.texture.IRegionManager;
 import com.doubleshoot.texture.SimpleTextureRegion;
 
 public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
+	public static int RESERVE_COUNT = 16;
 	private FixtureDef mAlienDef;
 	private GORegistry<Bullet> mBulletRegistry;
-	public static int RESERVE_COUNT = 16;
+	private GORegistry<Reward> mRewardRegistry;
 
-	public InPlaceAlienLoader(GORegistry<Bullet> bulletRegistry) {
+	public InPlaceAlienLoader(GORegistry<Bullet> bulletRegistry,
+			GORegistry<Reward> rewardRegistry) {
 		mBulletRegistry = bulletRegistry;
+		mRewardRegistry = rewardRegistry;
 		mAlienDef = FixtureFactory.createFixture(GameObjectType.EnemyPlane, 1);
 	}
 	
@@ -105,6 +111,17 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		return pipeline;
 	}
 	
+	private IBehavior newBulletReward(int voteTimes) {
+		RandomBulletReward rewards = new RandomBulletReward(voteTimes);
+		for (int i = 0; i < mRewardRegistry.size(); i++) {
+			rewards.addRewardType(
+					mRewardRegistry.getFilteredFactory(
+							mRewardRegistry.getFactoryNameAt(i)));
+		}
+		
+		return rewards; 
+	}
+	
 	private GOFactory<Alien>
 	loadWhite(VertexBufferObjectManager vbom, IRegionManager regions) {
 		AlienFactory af = newAlien(150, 120, 8,
@@ -112,6 +129,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addWoundedBehavior(new RevengeBehavior(250, 240));
+		filter.addDeadBehavior(newBulletReward(4));
 		pipeline.addFilter(filter);
 		
 		return pipeline;
@@ -121,7 +139,11 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 	loadGreen(VertexBufferObjectManager vbom, IRegionManager regions) {
 		AlienFactory af = newAlien(100, 150, 4,
 				checkShape(vbom, regions, "Alien.Green"), newBodyFactory(3, 16));
-		return af;
+		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
+		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
+		filter.addDeadBehavior(new RevengeBehavior(250, 240));
+		filter.addDeadBehavior(newBulletReward(1));
+		return pipeline;
 	}
 	
 	private GOFactory<Alien>
@@ -173,4 +195,4 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		callback.onNewFactory(AlienType.HUGE, loadHuge(vbom, regions));
 	}
 
-}
+}

@@ -6,4 +6,4 @@ import com.doubleshoot.movable.IMovable;
 
 public interface IMotion {
 	public IUpdateHandler createMotionModifier(IMovable pMovable);
-}
+}

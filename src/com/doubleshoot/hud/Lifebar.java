@@ -82,6 +82,4 @@ public class Lifebar implements HudItem {
 	public void detach() {
 		mFrame.detachSelf();
 	}
-	
-	
-}
+}

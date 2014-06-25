@@ -6,4 +6,4 @@ public interface Harmful {
 	
 	public float countDamage(GameObject target);
 	
-}
+}

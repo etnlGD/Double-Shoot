@@ -2,6 +2,7 @@ package com.doubleshoot.alien;
 
 import org.andengine.entity.shape.IAreaShape;
 
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.bullet.Barrel;
 import com.doubleshoot.bullet.Bullet;
@@ -48,5 +49,4 @@ public class DeadBulletBehavior implements IBehavior {
 			}
 		});
 	}
-
-}
+}

@@ -84,6 +84,7 @@ public class Barrel {
 				bullet.setShooter(parent);
 				if (callback != null)
 					callback.onNewBullet(bullet);
+				bullet.onShooted();
 			}
 			
 			freeze();

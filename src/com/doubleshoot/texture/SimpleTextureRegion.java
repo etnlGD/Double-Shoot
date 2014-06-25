@@ -21,4 +21,4 @@ public class SimpleTextureRegion {
 		return new TiledTextureRegion(tex, subRegions);
 	}
 	
-}
+}

@@ -42,4 +42,4 @@ public class VisibilityEntityModifier extends DurationEntityModifier {
 	protected void onManagedInitialize(IEntity pItem) {
 		pItem.setVisible(mFrom);
 	}
-}
+}

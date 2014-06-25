@@ -11,6 +11,7 @@ public class BulletPrototype extends AbstractGOFactory<Bullet> {
 	private float mDamage = 20;
 	private float mSpeed = 10;
 	private boolean mPenetrating = true;
+	private BulletListener mListener;
 
 	public BulletPrototype() {
 		setBodyType(BodyType.DynamicBody);
@@ -21,7 +22,7 @@ public class BulletPrototype extends AbstractGOFactory<Bullet> {
 		shape.setZIndex(-100);
 		body.setLinearVelocity(body.getLinearVelocity().nor().mul(mSpeed));
 
-		return new Bullet(mDamage, mPenetrating, shape, body, env);
+		return new Bullet(mDamage, mPenetrating, shape, body, env, mListener);
 	}
 
 	public void setSpeed(float speed) {
@@ -47,4 +48,8 @@ public class BulletPrototype extends AbstractGOFactory<Bullet> {
 	public boolean isPenetrating() {
 		return mPenetrating;
 	}
-}
+	
+	public void setBulletListener(BulletListener pListener) {
+		mListener = pListener;
+	}
+}

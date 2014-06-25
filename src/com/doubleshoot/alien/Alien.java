@@ -23,6 +23,7 @@ public class Alien extends BaseShooter implements Harmful, Scoreable {
 	
 	public void setMotion(IMotion pMotion) {
 		getShape().unregisterUpdateHandler(mMotionUpdater);
+
 		mMotionUpdater = pMotion.createMotionModifier(new MovableBody(getBody()));
 		getShape().registerUpdateHandler(mMotionUpdater);
 	}
@@ -44,4 +45,4 @@ public class Alien extends BaseShooter implements Harmful, Scoreable {
 		return mScores;
 	}
 
-}
+}

@@ -19,4 +19,4 @@ public class VibrationBehavior implements IBehavior {
 		mEngine.vibrate(mMilliseconds);
 	}
 
-}
+}

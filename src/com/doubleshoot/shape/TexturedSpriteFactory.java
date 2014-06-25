@@ -15,6 +15,7 @@ import org.andengine.util.color.Color;
 
 import android.util.Log;
 
+<<<<<<< HEAD
 import com.doubleshoot.texture.IRegionManager;
 
 public class TexturedSpriteFactory implements ShapeFactory {
@@ -58,6 +59,42 @@ public class TexturedSpriteFactory implements ShapeFactory {
 	public void setBlendFunction(int pBlendSource, int pBlendDest) {
 		mBlendSource = pBlendSource;
 		mBlendDest = pBlendDest;
+=======
+public class TexturedSpriteFactory implements ShapeFactory {
+	private Set<IAreaShape> mFreeList = new HashSet<IAreaShape>();
+	private ITextureRegion mTextureRegion;
+	private VertexBufferObjectManager mVBOManager;
+	private Color mAddedColor;
+	private float mScale;
+	private int mBlendSource = IShape.BLENDFUNCTION_SOURCE_DEFAULT;
+	private int mBlendDest = IShape.BLENDFUNCTION_DESTINATION_DEFAULT;
+	
+	private int mProfileNewCount = 0;
+	public String textureName = "";
+	
+	public void setBlendFunction(int pBlendSource, int pBlendDest) {
+		mBlendSource = pBlendSource;
+		mBlendDest = pBlendDest;
+	}
+	
+	public TexturedSpriteFactory(VertexBufferObjectManager vbom, ITextureRegion pTextureRegion, Color added, float pScale) {
+		mVBOManager = vbom;
+		mTextureRegion = pTextureRegion;
+		mAddedColor = added;
+		mScale = pScale;
+	}
+	
+	public TexturedSpriteFactory(VertexBufferObjectManager vbom, ITextureRegion pTextureRegion) {
+		this(vbom, pTextureRegion, Color.WHITE, 1.f);
+	}
+	
+	public TexturedSpriteFactory(VertexBufferObjectManager vbom, ITextureRegion pTextureRegion, Color pColor) {
+		this(vbom, pTextureRegion, pColor, 1.f);
+	}
+	
+	public TexturedSpriteFactory(VertexBufferObjectManager vbom, ITextureRegion pTextureRegion, float scale) {
+		this(vbom, pTextureRegion, Color.WHITE, scale);
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 	}
 	
 	private void onShapeRecycled(IAreaShape shape) {
@@ -67,12 +104,15 @@ public class TexturedSpriteFactory implements ShapeFactory {
 	}
 	
 	protected IAreaShape newShape() {
+<<<<<<< HEAD
 		++mProfileNewCount;
 		if (mProfileNewCount % 10 == 1) {
 			Log.i("TextureSpriteFactory",
 					"New shape<" + textureName + "> count: " + mProfileNewCount);
 		}
 		
+=======
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		if (mTextureRegion instanceof ITiledTextureRegion) {
 			return new AnimatedSprite(0, 0, (ITiledTextureRegion) mTextureRegion, mVBOManager) {
 				@Override
@@ -90,8 +130,11 @@ public class TexturedSpriteFactory implements ShapeFactory {
 			};
 	}
 	
+<<<<<<< HEAD
 	private int mProfileNewCount = 0;
 	private String textureName = "";
+=======
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 	private IAreaShape findShape() {
 		IAreaShape shape;
 		if (mFreeList.size() > 0) {
@@ -100,6 +143,15 @@ public class TexturedSpriteFactory implements ShapeFactory {
 			it.remove();
 		} else {
 			shape = newShape();
+<<<<<<< HEAD
+=======
+			++mProfileNewCount;
+			
+			if (mProfileNewCount % 10 == 1) {
+				Log.i("TextureSpriteFactory",
+						"New shape<" + textureName + "> count: " + mProfileNewCount);
+			}
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		}
 		
 		return shape;
@@ -115,4 +167,8 @@ public class TexturedSpriteFactory implements ShapeFactory {
 	}
 
 
-}
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03

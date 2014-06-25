@@ -232,4 +232,4 @@ public class GameStatusScene extends HUD implements IGameListener {
 			mVisibleState.clear();
 		}
 	}
-}
+}

@@ -51,4 +51,4 @@ public abstract class AbstractGOFactory<T extends GameObject>
 	
 	protected abstract T createObject(GOEnvironment env, IAreaShape shape, Body body);
 
-}
+}

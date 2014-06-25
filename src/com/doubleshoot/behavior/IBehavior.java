@@ -7,4 +7,4 @@ public interface IBehavior {
 	
 	public void onActivated(BaseShooter host, Harmful source, float damage);
 	
-}
+}

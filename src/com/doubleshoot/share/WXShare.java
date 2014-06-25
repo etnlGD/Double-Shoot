@@ -36,13 +36,18 @@ public class WXShare {
 		mApi.registerApp(getString(R.string.wx_app_id));
 		
 		WXMediaMessage msg = new WXMediaMessage();
-		if (bmp != null) 
-			fillImage(msg, bmp, leftScore, rightScore);
-		else
-			fillText(msg, leftScore, rightScore);
-	
+		WXImageObject imgObj = new WXImageObject(bmp);
+		msg.mediaObject = imgObj;
+		msg.title = getString(R.string.share_title);
+		msg.description = createText(leftScore, rightScore);
+
+		Bitmap thumbBmp = Bitmap.createScaledBitmap(
+				bmp, THUMB_SIZE, THUMB_SIZE, true);
+		msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+
+		
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = buildTransaction(bmp == null ? "text" : "image");
+		req.transaction = buildTransaction("image");
 		req.message = msg;
 		req.scene = SendMessageToWX.Req.WXSceneTimeline;
 		mApi.sendReq(req);
@@ -58,24 +63,6 @@ public class WXShare {
 		});
 	}
 
-	private void fillText(WXMediaMessage msg, int left, int right) {
-		WXTextObject obj = new WXTextObject();
-		obj.text = createText(left, right);
-		msg.mediaObject = obj;
-		msg.description = obj.text;
-	}
-	
-	private void fillImage(WXMediaMessage msg, Bitmap bmp, int left, int right) {
-		WXImageObject imgObj = new WXImageObject(bmp);
-		msg.mediaObject = imgObj;
-		msg.title = getString(R.string.share_title);
-		msg.description = createText(left, right);
-
-		Bitmap thumbBmp = Bitmap.createScaledBitmap(
-				bmp, THUMB_SIZE, THUMB_SIZE, true);
-		msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
-	}
-	
 	private String createText(int left, int right) {
 		if (left <= Constants.LOW_SCORE && right >= Constants.HIGH_SCORE) {
 			return "我的左手无能(" + left + ")，但是我的右手有啊(" + right + ")。" ;
@@ -94,13 +81,13 @@ public class WXShare {
 		}
 		
 		if (left == 0 && right == 0) {
-			return "What happened?!!!Call me double zero!";
+			return "发生了什么？！！！请叫我双零射击！";
 		}
 		
 		return "我是来晒战斗力的(L：" + left + "R：" + right + ")";
 	}
 	
 	private String buildTransaction(final String type) {
-		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+		return type + System.currentTimeMillis();
 	}
-}
+}

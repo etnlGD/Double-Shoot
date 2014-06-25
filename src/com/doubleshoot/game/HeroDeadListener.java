@@ -12,7 +12,7 @@ public class HeroDeadListener implements IBehavior {
 	private int mRightLives;
 	private IGameListener mListener;
 	
-	public HeroDeadListener(int pInitLives, IGameListener pListener) {
+	public HeroDeadListener(int pInitLives, IGameListener pListener) { 
 		mInitLives = pInitLives;
 		mListener = pListener;
 	}
@@ -51,4 +51,4 @@ public class HeroDeadListener implements IBehavior {
 		if (gameover())
 			mListener.onGameover();
 	}
-}
+}

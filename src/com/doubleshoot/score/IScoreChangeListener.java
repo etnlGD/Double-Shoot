@@ -4,4 +4,4 @@ public interface IScoreChangeListener {
 
 	public void onScoreChanged(int current, int pDelta);
 	
-}
+}

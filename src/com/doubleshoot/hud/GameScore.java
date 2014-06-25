@@ -131,4 +131,4 @@ public class GameScore implements IScoreChangeListener, HudItem {
 			bit.detach();
 		}
 	}
-}
+}

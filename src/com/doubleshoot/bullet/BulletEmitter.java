@@ -63,4 +63,4 @@ public class BulletEmitter implements IUpdateHandler {
 		
 		return emitter;
 	}
-}
+}

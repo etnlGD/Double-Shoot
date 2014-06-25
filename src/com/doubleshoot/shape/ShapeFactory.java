@@ -6,4 +6,4 @@ public interface ShapeFactory {
 	
 	public IAreaShape createShape();
 	
-}
+}

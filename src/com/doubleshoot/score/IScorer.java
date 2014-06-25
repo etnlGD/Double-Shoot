@@ -1,6 +1,5 @@
 package com.doubleshoot.score;
 
-
 public interface IScorer {
 	
 //	public void scoring(Scoreable source, ITaggedObject obtainer, float damage);
@@ -10,4 +9,4 @@ public interface IScorer {
 	
 	public void setScoreChangeListener(IScoreChangeListener lis);
 
-}
+}

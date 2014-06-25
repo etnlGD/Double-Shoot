@@ -128,4 +128,4 @@ public class Hero extends BaseShooter implements Harmful, IScorer {
 		}
 	}
 
-}
+}

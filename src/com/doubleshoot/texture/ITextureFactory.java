@@ -8,4 +8,4 @@ public interface ITextureFactory {
 	
 	public ITexture loadTexture(String pathName) throws IOException;
 	
-}
+}

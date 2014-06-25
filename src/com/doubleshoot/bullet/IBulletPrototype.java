@@ -8,4 +8,4 @@ public interface IBulletPrototype extends ITaggedObject {
 	
 	public Bullet create(GOEnvironment env, Vector2 pos, Vector2 dir);
 	
-}
+}

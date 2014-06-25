@@ -36,10 +36,6 @@ public class AllTextureRegions {
 		regionManager.addRegion("Pause", "pause.png");
 		
 		regionManager.addRegion("Alien.Yellow","1945.png", 4, 4, 32, 32);
-		regionManager.addRegion("Alien.Blue",  "1945.png", 4, 37, 32, 32);
-		regionManager.addRegion("Alien.Green", "1945.png", 4, 70, 32, 32);
-		regionManager.addRegion("Alien.White", "1945.png", 4, 103, 32, 32);
-		regionManager.addRegion("Alien.Huge",  "1945.png", 798, 18, 92, 73);
 		
 		int idx = 0;
 		for (int y = 0; y < 192*3; y += 192)
@@ -48,10 +44,20 @@ public class AllTextureRegions {
 				++idx;
 			}
 
-		regionManager.addRegion("Bullet.Red", "1945.png", 278, 113, 13, 13);
-		regionManager.addRegion("Bullet.Laser", "1945.png", 48, 176, 9, 20);
-		regionManager.addRegion("Bullet.Yellow", "1945.png", 49, 214, 9, 9);
+		regionManager.addRegion("Alien.Blue", 	"1945.png", 4, 37, 32, 32);
+		regionManager.addRegion("Alien.Green", "1945.png", 4, 70, 32, 32);
+		regionManager.addRegion("Alien.White", "1945.png", 4, 103, 32, 32);
 		
+		regionManager.addRegion("Bullet.Red", "1945.png", 278, 113, 13, 13);
+		regionManager.addRegion("Bullet.Laser", "laser.png");
+		regionManager.addRegion("Bullet.Yellow", "1945.png", 49, 214, 9, 9);
+		regionManager.addRegion("Bullet.Missile", "1945.png", 279, 272, 11, 22);
+		
+		regionManager.addRegion("Reward.Scatter", "reward_scatter.png");
+		regionManager.addRegion("Reward.Parallel", "reward_parallel.png");
+		regionManager.addRegion("Reward.Laser", "reward_laser.png");
+		regionManager.addRegion("Reward.Missile", "reward_missile.png");
+		regionManager.addRegion("Reward.Heal", "reward_heal.png");
 		return regionManager;
 	}
 	

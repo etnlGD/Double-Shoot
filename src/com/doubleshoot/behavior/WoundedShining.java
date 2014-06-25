@@ -35,4 +35,4 @@ public class WoundedShining implements IBehavior{
 		return elapsed > 0 && elapsed < duration;
 	}
 
-}
+}

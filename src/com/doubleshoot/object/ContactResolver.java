@@ -58,5 +58,4 @@ public class ContactResolver implements ContactListener, IUpdateHandler {
 		mBeginPairs.clear();
 		mEndPairs.clear();
 	}
-
-}
+}

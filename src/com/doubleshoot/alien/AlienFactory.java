@@ -38,4 +38,5 @@ public class AlienFactory extends ShooterFactory<Alien> {
 		return new Alien(shape, body, env);
 	}
 
-}
+}
+}

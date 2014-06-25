@@ -34,16 +34,25 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
 import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.opengl.GLES20;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.doubleshoot.alien.Alien;
 import com.doubleshoot.alien.DeadScoreBehavior;
 import com.doubleshoot.alien.WoundScoreBehavior;
+import com.doubleshoot.alien.ScorerBehaviorWapper;
+import com.doubleshoot.audio.SE;
+import com.doubleshoot.behavior.ExplosionSound;
 import com.doubleshoot.behavior.VibrationBehavior;
 import com.doubleshoot.body.BodyFactory;
 import com.doubleshoot.body.SimpleBodyBuilder;
 import com.doubleshoot.bullet.Bullet;
+import com.doubleshoot.game.ScreenShot.IScreenSavedListener;
 import com.doubleshoot.hero.Hero;
 import com.doubleshoot.hero.HeroFactory;
 import com.doubleshoot.hud.DefaultFontCreator;
@@ -60,6 +69,9 @@ import com.doubleshoot.object.RegistryFiller;
 import com.doubleshoot.parallax.HVParallaxEntity;
 import com.doubleshoot.prefab.InPlaceAlienLoader;
 import com.doubleshoot.prefab.InPlaceBulletLoader;
+import com.doubleshoot.prefab.InPlaceRewardLoader;
+import com.doubleshoot.reward.Reward;
+import com.doubleshoot.score.IScorer;
 import com.doubleshoot.shape.ShapeFactory;
 import com.doubleshoot.shape.TexturedSpriteFactory;
 import com.doubleshoot.share.WXShare;
@@ -69,12 +81,14 @@ import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.ShooterBehaviorFilter;
 import com.doubleshoot.shooter.ShooterVisualFilter;
+import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.texture.CachedTextureFactory;
 import com.doubleshoot.texture.IRegionManager;
 import com.doubleshoot.texture.ITextureFactory;
 import com.umeng.analytics.MobclickAgent;
 
-public class GameActivity extends BaseGameActivity implements OnClickListener {
+public class GameActivity extends BaseGameActivity 
+				implements OnClickListener, IScreenSavedListener {
 	public static final float SCREEN_RATIO = 16.f/9;
 	public static final float CAMERA_WIDTH = 800;
 	public static final float CAMERA_HEIGHT = CAMERA_WIDTH/SCREEN_RATIO;
@@ -94,6 +108,8 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 	private ScreenShot mLeftShot;
 	private ScreenShot mRightShot;
 	private WXShare mShare;
+	private SE mSoundSet;
+	private ScreenCapture mScreenCapture;
 	
 	@Override
 	public void onResume() {
@@ -163,6 +179,13 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 		mFont.load();
 
 		mRegions = AllTextureRegions.loadAll(mTextureFactory);
+		mSoundSet = new SE(this, "mfx/");
+		mSoundSet.put("explosion.wav", 1.0f);
+		mSoundSet.put("laser_hit.wav", 0.05f);
+		mSoundSet.put("laser_shoot.wav", 0.05f);
+		mSoundSet.put("shoot.wav", 0.1f);
+		mSoundSet.put("hit.wav", 0.1f);
+		mSoundSet.put("missile_shoot.wav", 0.5f);
 		callback.onCreateResourcesFinished();
 	}
 
@@ -226,6 +249,7 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 		GOFilter<BaseShooter> shooterFilter =
 				new ShooterVisualFilter<BaseShooter>(pEnv, shapeFactory);
 		
+<<<<<<< HEAD
 		// Create Hero
 		FixtureDef heroDef = FixtureFactory.createFixture(GameObjectType.HeroPlane, 1);
 		BodyFactory heroBodyFactory = SimpleBodyBuilder.newBox(45, 32, heroDef);
@@ -233,10 +257,21 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 				new TexturedSpriteFactory(vbom, mRegions, "TiledHero");
 		heroShapeFactory.setScale(0.8f);
 		HeroFactory heroFactory = new HeroFactory(Float.MAX_VALUE, 300);
+=======
+		ShooterBehaviorFilter soundFilter = new ShooterBehaviorFilter();
+		soundFilter.addDeadBehavior(new ExplosionSound(mSoundSet.get("explosion")));
+		
+		// Create Hero
+		FixtureDef heroDef = FixtureFactory.createFixture(GameObjectType.HeroPlane, 1);
+		BodyFactory heroBodyFactory = SimpleBodyBuilder.newBox(45, 32, heroDef);
+		ShapeFactory heroShapeFactory = new TexturedSpriteFactory(vbom, mRegions.getRegion("TiledHero"), 0.8f);
+		HeroFactory heroFactory = new HeroFactory(Float.MAX_VALUE, 500);
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		heroFactory.setShapeFactory(heroShapeFactory);
 		heroFactory.setBodyFactory(heroBodyFactory);
 		GOPipeline<Hero> heroPipeline = new GOPipeline<Hero>(heroFactory);
 		heroPipeline.addFilter(shooterFilter);
+<<<<<<< HEAD
 		ShooterBehaviorFilter heroBehaviors = new ShooterBehaviorFilter();
 		heroBehaviors.addWoundedBehavior(new VibrationBehavior(mEngine, 50));
 		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
@@ -264,16 +299,46 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 		GORegistry<Alien> alienRegistry = new ConcreteGORegistry<Alien>();
 		alienRegistry.addFilter(shooterFilter);
 		GOFactoryLoader<Alien> alienLoader = new InPlaceAlienLoader(bulletRegistry);
+=======
+		heroPipeline.addFilter(soundFilter);
+		ShooterBehaviorFilter heroBehaviors = new ShooterBehaviorFilter();
+		heroBehaviors.addWoundedBehavior(new VibrationBehavior(mEngine, 50));
+		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
+		mScreenCapture = new ScreenCapture(mEngine, getAssets(), this);
+		heroBehaviors.addDeadBehavior(mScreenCapture);
+		heroPipeline.addFilter(heroBehaviors);
+		
+		GORegistry<Bullet> bulletRegistry = new ConcreteGORegistry<Bullet>();
+		GOFactoryLoader<Bullet> bulletLoader = new InPlaceBulletLoader(mSoundSet);
+		RegistryFiller.fill(bulletRegistry, bulletLoader, vbom, mRegions);
+		
+		GORegistry<Reward> rewardRegistry = new ConcreteGORegistry<Reward>();
+		GOFactoryLoader<Reward> rewardLoader = new InPlaceRewardLoader(bulletRegistry);
+		RegistryFiller.fill(rewardRegistry, rewardLoader, vbom, mRegions);
+		
+		GORegistry<Alien> alienRegistry = new ConcreteGORegistry<Alien>();
+		alienRegistry.addFilter(shooterFilter);
+		ShooterBehaviorFilter scoreFilter = new ShooterBehaviorFilter();
+		scoreFilter.addWoundedBehavior(new ScorerBehaviorWapper(mHud.getScorer()));
+		alienRegistry.addFilter(scoreFilter);
+		alienRegistry.addFilter(soundFilter);
+		GOFactoryLoader<Alien> alienLoader = 
+				new InPlaceAlienLoader(bulletRegistry, rewardRegistry);
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		RegistryFiller.fill(alienRegistry, alienLoader, vbom, mRegions);
 		
 		mGame = new Game(heroPipeline, pEnv, bulletRegistry, alienRegistry);
 		mGame.appendListener(mHud);
+<<<<<<< HEAD
 		mGame.newGame(false);
 		
 		ShooterBehaviorFilter scoreFilter = new ShooterBehaviorFilter();
 		scoreFilter.addDeadBehavior(new DeadScoreBehavior(mGame));
 		scoreFilter.addWoundedBehavior(new WoundScoreBehavior(mGame));
 		alienRegistry.addFilter(scoreFilter);
+=======
+		mGame.newGame();
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		
 		populateCallback.onPopulateSceneFinished();
 	}
@@ -298,7 +363,20 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 	
 	@Override
 	public void onBackPressed() {
-		mGame.onGamePause();
+		if (mGame.isPaused())
+			super.onBackPressed();
+		else {
+			mGame.onGamePause();
+			this.runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Toast.makeText(GameActivity.this, 
+							getResources().getString(R.string.press_again), 
+							Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 	}
 
 	@Override
@@ -315,26 +393,25 @@ public class GameActivity extends BaseGameActivity implements OnClickListener {
 			mGame.newGame(true);
 			break;
 		case SHARE:
-//			mScreenShot.saveRequest(new IScreenSavedListener() {
-//
-//				@Override
-//				public void onSaved(Bitmap pBitmap) {
-//					IScorer score = mHud.getScorer();
-//					int left = score.getScore(TagManager.sLeftScore);
-//					int right = score.getScore(TagManager.sRightScore);
-//					try {
-//						mShare.share(pBitmap, left, right);
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
+			mScreenCapture.save();
 			break;
 		default:
 			Log.d(GameActivity.class.getSimpleName(),
 					"Unexpected button, tag: " + pButtonSprite.getTag());
 		}
 	}
+
+	@Override
+	public void onSaved(Bitmap pBitmap) {
+		IScorer score = mHud.getScorer();
+		int left = score.getScore(TagManager.sLeftHero);
+		int right = score.getScore(TagManager.sRightHero);
+		try {
+			mShare.share(pBitmap, left, right);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 
-}
+}

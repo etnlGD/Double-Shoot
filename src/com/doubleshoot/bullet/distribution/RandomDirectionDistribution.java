@@ -34,4 +34,4 @@ public class RandomDirectionDistribution extends CountableBulletDistribution {
 		return new RandomDirectionDistribution(mMinAngle, mMaxAngle);
 	}
 
-}
+}

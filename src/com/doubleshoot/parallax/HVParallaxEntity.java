@@ -50,4 +50,4 @@ public class HVParallaxEntity extends ParallaxEntity {
 		}
 		pGLState.popModelViewGLMatrix();
 	}
-}
+}

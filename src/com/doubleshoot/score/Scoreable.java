@@ -4,4 +4,4 @@ public interface Scoreable {
 	
 	public int getTotalScore();
 	
-}
+}

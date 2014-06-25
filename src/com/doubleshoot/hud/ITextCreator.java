@@ -7,4 +7,4 @@ public interface ITextCreator {
 	public Text create(float x, float y, String text);
 	public IFont getFont();
 	public void setFont(IFont font);
-}
+}

@@ -10,4 +10,4 @@ public interface BodyFactory {
 	
 	public Body createBody(PhysicsWorld world, BodyType type, Vector2 pos, float rot);
 	
-}
+}

@@ -33,5 +33,4 @@ public class UniformVelocityMotion implements IMotion {
 			}
 		};
 	}
-
-}
+}

@@ -11,4 +11,4 @@ public class AbsorbDamage extends AdditionDamage {
 	public AdditionDamage add(AdditionDamage other) {
 		return this;
 	}
-}
+}

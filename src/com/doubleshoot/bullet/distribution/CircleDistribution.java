@@ -30,4 +30,4 @@ public class CircleDistribution extends CountableBulletDistribution {
 		return new CircleDistribution(mRadius, getBulletCount());
 	}
 
-}
+}

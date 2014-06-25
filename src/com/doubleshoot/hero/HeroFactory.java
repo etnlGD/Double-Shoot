@@ -19,5 +19,4 @@ public class HeroFactory extends ShooterFactory<Hero> {
 	protected Hero createObject(GOEnvironment env, IAreaShape shape, Body body) {
 		return new Hero(shape, body, env);
 	}
-	
-}
+}

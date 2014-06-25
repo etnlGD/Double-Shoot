@@ -30,4 +30,4 @@ public class AdditionDamage {
 		mOffset= Math.max(0, mOffset);
 		mFixed = Math.max(0, mFixed);
 	}
-}
+}

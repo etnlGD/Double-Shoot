@@ -76,4 +76,4 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		finish();
 	}
 
-}
+}

@@ -4,4 +4,4 @@ public interface NewBulletCallback {
 	
 	public void onNewBullet(Bullet bullet);
 	
-}
+}

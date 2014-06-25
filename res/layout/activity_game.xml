@@ -17,7 +17,10 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
+<<<<<<< HEAD
         android:text="@string/dummy_content"
+=======
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
         android:textColor="#33b5e5"
         android:textSize="50sp"
         android:textStyle="bold" />
@@ -48,7 +51,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+<<<<<<< HEAD
                 android:text="@string/dummy_button" />
+=======
+                />
+>>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
         </LinearLayout>
     </FrameLayout>
 

@@ -29,6 +29,7 @@ import com.doubleshoot.shooter.BarrierObject;
 import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
+import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.troop.RandomTroopGenerator;
 import com.doubleshoot.troop.TroopDispatcher;
@@ -130,18 +131,22 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		super.onGameStart(pLeftHero, pRightHero);
 	}
 
+	private boolean mPaused = false;
+
 	@Override
 	public void onGamePause() {
 		if (!mHeroDeadListener.gameover()) {
 			getScene().setIgnoreUpdate(true);
 			super.onGamePause();
 		}
+		mPaused = true;
 	}
 
 	@Override
 	public void onGameResume() {
 		super.onGameResume();
 		getScene().setIgnoreUpdate(false);
+		mPaused = false;
 	}
 
 	@Override
@@ -157,4 +162,8 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		
 		return null;
 	}
-}
+	
+	public boolean isPaused() {
+		return mPaused;
+	}
+}

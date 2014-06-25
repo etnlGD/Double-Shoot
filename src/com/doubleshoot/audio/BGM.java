@@ -21,4 +21,4 @@ public class BGM {
 		music.setLooping(true);
 		return music;
 	}
-}
+}

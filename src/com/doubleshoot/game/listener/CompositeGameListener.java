@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.doubleshoot.hero.Hero;
+import com.doubleshoot.shooter.BaseShooter;
 
 public class CompositeGameListener implements ICompositeGameListener {
 	private Set<IGameListener> mListeners = new HashSet<IGameListener>();
@@ -36,14 +37,14 @@ public class CompositeGameListener implements ICompositeGameListener {
 	public void onGamePause() {
 		for (IGameListener l : mListeners) {
 			l.onGamePause();
-		}
+		}		
 	}
 
 	@Override
 	public void onGameResume() {
 		for (IGameListener l : mListeners) {
 			l.onGameResume();
-		}
+		}		
 	}
 
 }
