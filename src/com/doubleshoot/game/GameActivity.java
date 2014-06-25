@@ -99,8 +99,6 @@ public class GameActivity extends BaseGameActivity
 	
 	private Game mGame;
 	private GameStatusScene mHud;
-	private ScreenShot mLeftShot;
-	private ScreenShot mRightShot;
 	private WXShare mShare;
 	private SE mSoundSet;
 	private ScreenCapture mScreenCapture;
