@@ -262,7 +262,6 @@ public class GameActivity extends BaseGameActivity
 		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
 		mScreenCapture = new ScreenCapture(mEngine, getAssets(), this);
 		heroBehaviors.addDeadBehavior(mScreenCapture);
-		// TODO
 		heroPipeline.addFilter(heroBehaviors);
 		
 		GORegistry<Bullet> bulletRegistry = new ConcreteGORegistry<Bullet>();

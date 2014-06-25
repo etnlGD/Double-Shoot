@@ -102,14 +102,14 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		}
 		
 		mLeftHero = mHeroFactory.create(mGOEnv,
-				new Vector2(CAMERA_WIDTH*0.25f, CAMERA_HEIGHT), new Vector2());
+				new Vector2(CAMERA_WIDTH*0.25f, CAMERA_HEIGHT - 43/2), new Vector2());
 		setUpHero(mLeftHero, TagManager.sLeftHero);
-		setDefaultEmitter(mGOEnv, mLeftHero, .3f, 3);
+		setDefaultEmitter(mGOEnv, mLeftHero, .2f, 1);
 		
 		mRightHero = mHeroFactory.create(mGOEnv,
-				new Vector2(CAMERA_WIDTH*0.75f, CAMERA_HEIGHT), new Vector2());
+				new Vector2(CAMERA_WIDTH*0.75f, CAMERA_HEIGHT - 43/2), new Vector2());
 		setUpHero(mRightHero, TagManager.sRightHero);
-		setDefaultEmitter(mGOEnv, mRightHero, .1f, 1);
+		setDefaultEmitter(mGOEnv, mRightHero, .2f, 1);
 		
 		float[] seperators = {
 				CONTROLLER_MARGIN, CAMERA_WIDTH/2 - CONTROLLER_MARGIN,

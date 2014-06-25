@@ -64,8 +64,6 @@ final class ScreenCapture implements IBehavior {
 					notifySaved();
 			}
 		});
-		
-		//
 	}
 	
 	private void notifySaved() {
