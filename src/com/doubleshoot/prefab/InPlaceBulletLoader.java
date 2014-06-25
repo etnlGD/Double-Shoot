@@ -3,15 +3,7 @@ package com.doubleshoot.prefab;
 import static com.doubleshoot.body.SimpleBodyBuilder.newBox;
 import static com.doubleshoot.body.SimpleBodyBuilder.newCircle;
 
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.util.color.Color;
-
-import com.doubleshoot.bullet.Bullet;
-import com.doubleshoot.bullet.BulletPrototype;
-import com.doubleshoot.object.GOFactory;
-import com.doubleshoot.object.GOFactoryLoader;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
@@ -90,10 +82,22 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 		prototype.setDamage(40);
 		prototype.setPenetrating(true);
 		prototype.setSpeed(7);
-		prototype.setBodyFactory(newBox(8, 30, 
+		prototype.setBodyFactory(newBox(8, 30,
 				PhysicsFactory.createFixtureDef(0.1f, 0, 1, true)));
 		prototype.setShapeFactory(
 				newSpriteFactory(vbom, regions, "Bullet.Laser"));
+		return prototype;
+	}
+	
+	private GOFactory<Bullet> loadHugeYellow(VertexBufferObjectManager vbom, IRegionManager regions) {
+		BulletPrototype prototype = new BulletPrototype();
+		prototype.setDamage(80);
+		prototype.setPenetrating(false);
+		prototype.setSpeed(8);
+		prototype.setBodyFactory(newBox(9, 20, 1f));
+		prototype.setShapeFactory(
+				newSpriteFactory(vbom, regions, "Bullet.HugeYellow"));
+//		prototype.setBulletListener(new BulletSound(mSoundSet.get("missile_shoot")));
 		return prototype;
 	}
 
@@ -120,5 +124,6 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 		callback.onNewFactory("BlueRound", loadBlue(vbom, regions));
 		callback.onNewFactory("DeadBullet", loadDead(vbom, regions));
 		callback.onNewFactory("Missile", loadMissile(vbom, regions));
+		callback.onNewFactory("HugeYellow", loadHugeYellow(vbom, regions));
 	}
 }

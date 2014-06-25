@@ -47,7 +47,9 @@ public class AllTextureRegions {
 		regionManager.addRegion("Alien.Blue", 	"1945.png", 4, 37, 32, 32);
 		regionManager.addRegion("Alien.Green", "1945.png", 4, 70, 32, 32);
 		regionManager.addRegion("Alien.White", "1945.png", 4, 103, 32, 32);
+		regionManager.addRegion("Alien.Huge", "1945.png", 798, 20, 92, 72);
 		
+		regionManager.addRegion("Bullet.HugeYellow", "1945.png", 48, 176, 9, 20);
 		regionManager.addRegion("Bullet.Red", "1945.png", 278, 113, 13, 13);
 		regionManager.addRegion("Bullet.Laser", "laser.png");
 		regionManager.addRegion("Bullet.Yellow", "1945.png", 49, 214, 9, 9);

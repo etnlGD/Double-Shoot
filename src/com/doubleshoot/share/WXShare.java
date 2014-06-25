@@ -31,6 +31,7 @@ public class WXShare {
 	public void share(Bitmap bmp, int leftScore, int rightScore) throws IOException {
 		if (!mApi.isWXAppInstalled()) {
 			onWXNotInstalled();
+			return;
 		}
 		
 		mApi.registerApp(getString(R.string.wx_app_id));

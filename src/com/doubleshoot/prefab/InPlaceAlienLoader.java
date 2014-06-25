@@ -119,7 +119,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 							mRewardRegistry.getFactoryNameAt(i)));
 		}
 		
-		return rewards; 
+		return rewards;
 	}
 	
 	private GOFactory<Alien>
@@ -141,8 +141,8 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 				checkShape(vbom, regions, "Alien.Green"), newBodyFactory(3, 16));
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
-		filter.addDeadBehavior(new RevengeBehavior(250, 240));
 		filter.addDeadBehavior(newBulletReward(1));
+		pipeline.addFilter(filter);
 		return pipeline;
 	}
 	
@@ -157,16 +157,16 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		// TODO change to other bullet
 		Barrel left = new Barrel(
 				new RandomDirectionDistribution(90, 90),
-				mBulletRegistry.getFilteredFactory("BlueRound"));
+				mBulletRegistry.getFilteredFactory("HugeYellow"));
 		left.setBarrelPosition(27, 57);
-		left.setFrozenCycle(0.2f);
+		left.setFrozenCycle(0.4f);
 		af.setBarrel(0, left);
 		
 		Barrel right = new Barrel(
 				new RandomDirectionDistribution(90, 90),
-				mBulletRegistry.getFilteredFactory("BlueRound"));
+				mBulletRegistry.getFilteredFactory("HugeYellow"));
 		right.setBarrelPosition(63, 57);
-		right.setFrozenCycle(0.2f);
+		right.setFrozenCycle(0.4f);
 		af.setBarrel(1, right);
 		
 		ITextureRegion[] subRegions = new ITextureRegion[12];

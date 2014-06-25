@@ -255,7 +255,6 @@ public class GameActivity extends BaseGameActivity
 		GOPipeline<Hero> heroPipeline = new GOPipeline<Hero>(heroFactory);
 		heroPipeline.addFilter(shooterFilter);
 		
-//<<<<<<< HEAD
 		ShooterBehaviorFilter soundFilter = new ShooterBehaviorFilter();
 		soundFilter.addDeadBehavior(new ExplosionSound(mSoundSet.get("explosion")));
 		heroPipeline.addFilter(soundFilter);
