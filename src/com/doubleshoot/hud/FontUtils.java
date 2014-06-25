@@ -16,5 +16,4 @@ public class FontUtils {
 		
 		return maxWidth;
 	}
-
 }

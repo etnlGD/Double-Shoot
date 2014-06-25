@@ -3,6 +3,7 @@ package com.doubleshoot.game.listener;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.doubleshoot.hero.Hero;
 import com.doubleshoot.shooter.BaseShooter;
 
 public class CompositeGameListener implements ICompositeGameListener {
@@ -26,7 +27,7 @@ public class CompositeGameListener implements ICompositeGameListener {
 	}
 
 	@Override
-	public void onGameStart(BaseShooter pLeftHero, BaseShooter pRightHero) {
+	public void onGameStart(Hero pLeftHero, Hero pRightHero) {
 		for (IGameListener l : mListeners) {
 			l.onGameStart(pLeftHero, pRightHero);
 		}

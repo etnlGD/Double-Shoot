@@ -36,6 +36,16 @@ public class Randomizer {
 		public int shuffle();
 	}
 	
+	public static Int uniform(final int value) {
+		return new Int() {
+			
+			@Override
+			public int shuffle() {
+				return value;
+			}
+		};
+	}
+	
 	public static Int uniform(int center, int bias) {
 		final int base = center - bias;
 		final int rand = bias * 2 + 1;

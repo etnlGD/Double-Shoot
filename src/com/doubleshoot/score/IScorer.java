@@ -1,12 +1,12 @@
 package com.doubleshoot.score;
 
-import com.doubleshoot.object.ITaggedObject;
-
 public interface IScorer {
 	
-	public void scoring(Scoreable source, ITaggedObject obtainer);
+//	public void scoring(Scoreable source, ITaggedObject obtainer, float damage);
+	public void addScore(int score);
 	
-	public int getScore(String tag);
+	public int getScore();
 	
-	public void resetScore();
+	public void setScoreChangeListener(IScoreChangeListener lis);
+
 }

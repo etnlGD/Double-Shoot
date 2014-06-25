@@ -49,6 +49,10 @@ public class Barrel {
 	public boolean isAvailable() {
 		return mFrozenTime <= 0;
 	}
+	
+	public float getFrozenTime() {
+		return mFrozenTime;
+	}
 
 	public void unfreeze(float delta) {
 		if (!isAvailable())

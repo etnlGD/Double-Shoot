@@ -15,6 +15,7 @@ import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
 import com.doubleshoot.shooter.TagManager;
 
+// Dead
 final class ScreenCapture implements IBehavior {
 	private ScreenShot mLeftShot;
 	private ScreenShot mRightShot;
@@ -32,7 +33,7 @@ final class ScreenCapture implements IBehavior {
 	}
 
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
 		if (host.hasTag(TagManager.sLeftHero)) {
 			mLeftShot = new ScreenShot(mEngine);
 			mLeftShot.captureRequest();

@@ -36,10 +36,20 @@ public class AllTextureRegions {
 		regionManager.addRegion("Pause", "pause.png");
 		
 		regionManager.addRegion("Alien.Yellow","1945.png", 4, 4, 32, 32);
+		
+		int idx = 0;
+		for (int y = 0; y < 192*3; y += 192)
+			for (int x = 0; x < 1600; x += 400) {
+				regionManager.addRegion("Bomb."+idx,  "bomb.png", x,  y, 400, 192);
+				++idx;
+			}
+
 		regionManager.addRegion("Alien.Blue", 	"1945.png", 4, 37, 32, 32);
 		regionManager.addRegion("Alien.Green", "1945.png", 4, 70, 32, 32);
 		regionManager.addRegion("Alien.White", "1945.png", 4, 103, 32, 32);
+		regionManager.addRegion("Alien.Huge", "1945.png", 798, 20, 92, 72);
 		
+		regionManager.addRegion("Bullet.HugeYellow", "1945.png", 48, 176, 9, 20);
 		regionManager.addRegion("Bullet.Red", "1945.png", 278, 113, 13, 13);
 		regionManager.addRegion("Bullet.Laser", "laser.png");
 		regionManager.addRegion("Bullet.Yellow", "1945.png", 49, 214, 9, 9);

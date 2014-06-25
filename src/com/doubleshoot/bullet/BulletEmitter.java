@@ -21,6 +21,17 @@ public class BulletEmitter implements IUpdateHandler {
 			mBarrels.valueAt(i).doEmit(env, parent, callback);
 	}
 	
+	public float getMinFrozenTime() {
+		float minTime = Float.MAX_VALUE;
+		for (int i = 0; i < mBarrels.size(); ++i) {
+			float tm = mBarrels.valueAt(i).getFrozenTime();
+			if (minTime > tm)
+				minTime = tm;
+		}
+		
+		return minTime;
+	}
+	
 	public void setBarrel(int channel, Barrel barrel) {
 		mBarrels.put(channel, barrel);
 	}

@@ -4,7 +4,6 @@ import static com.doubleshoot.body.SimpleBodyBuilder.newBox;
 import static com.doubleshoot.body.SimpleBodyBuilder.newCircle;
 
 import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
@@ -23,6 +22,7 @@ import com.doubleshoot.shape.TexturedSpriteFactory;
 import com.doubleshoot.texture.IRegionManager;
 
 public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
+	public static int RESERVE_COUNT = 32;
 	private SE mSoundSet;
 	
 	public InPlaceBulletLoader(SE pSoundSet) {
@@ -34,13 +34,12 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 		return newSpriteFactory(vbom, regions, name, Color.WHITE);
 	}
 	
-	private ShapeFactory newSpriteFactory(VertexBufferObjectManager vbom,
+	private TexturedSpriteFactory newSpriteFactory(
+			VertexBufferObjectManager vbom,
 			IRegionManager regions, String name, Color added) {
-		ITextureRegion region = regions.getRegion(name);
-		if (region == null)
-			throw new RuntimeException("No regions: " + name);
-		TexturedSpriteFactory factory = new TexturedSpriteFactory(vbom, region, added);
-		factory.textureName = name;	// TODO REMOVE
+		TexturedSpriteFactory factory = new TexturedSpriteFactory(vbom, regions, name);
+		factory.setAddColor(added);
+		factory.reserve(RESERVE_COUNT);
 		return factory;
 	}
 	
@@ -83,10 +82,22 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 		prototype.setDamage(40);
 		prototype.setPenetrating(true);
 		prototype.setSpeed(7);
-		prototype.setBodyFactory(newBox(8, 30, 
+		prototype.setBodyFactory(newBox(8, 30,
 				PhysicsFactory.createFixtureDef(0.1f, 0, 1, true)));
 		prototype.setShapeFactory(
 				newSpriteFactory(vbom, regions, "Bullet.Laser"));
+		return prototype;
+	}
+	
+	private GOFactory<Bullet> loadHugeYellow(VertexBufferObjectManager vbom, IRegionManager regions) {
+		BulletPrototype prototype = new BulletPrototype();
+		prototype.setDamage(80);
+		prototype.setPenetrating(false);
+		prototype.setSpeed(8);
+		prototype.setBodyFactory(newBox(9, 20, 1f));
+		prototype.setShapeFactory(
+				newSpriteFactory(vbom, regions, "Bullet.HugeYellow"));
+//		prototype.setBulletListener(new BulletSound(mSoundSet.get("missile_shoot")));
 		return prototype;
 	}
 
@@ -113,5 +124,6 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 		callback.onNewFactory("BlueRound", loadBlue(vbom, regions));
 		callback.onNewFactory("DeadBullet", loadDead(vbom, regions));
 		callback.onNewFactory("Missile", loadMissile(vbom, regions));
+		callback.onNewFactory("HugeYellow", loadHugeYellow(vbom, regions));
 	}
 }

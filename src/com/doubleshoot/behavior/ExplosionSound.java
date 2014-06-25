@@ -14,8 +14,9 @@ public class ExplosionSound implements IBehavior {
 	}
 	
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
-		mSound.play();
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
+		if (damage > 0)
+			mSound.play();
 	}
 
 }

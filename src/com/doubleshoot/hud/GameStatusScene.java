@@ -21,16 +21,14 @@ import org.andengine.util.modifier.ease.EaseCubicOut;
 
 import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.game.listener.IGameListener;
+import com.doubleshoot.hero.Hero;
 import com.doubleshoot.hud.Lifebar.LookNFeel;
 import com.doubleshoot.modifier.VisibilityEntityModifier;
-import com.doubleshoot.score.DoubleScorer;
-import com.doubleshoot.score.IScorer;
 import com.doubleshoot.shape.ShapeFactory;
 import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
-import com.doubleshoot.shooter.TagManager;
 
-public class GameStatusScene extends HUD implements IGameListener, IBehavior {
+public class GameStatusScene extends HUD implements IGameListener {
 	private static final int SCORE_MAX_BITS = 5;
 	private static final float ICON_VERTICLE_MARGIN = 10;
 	
@@ -47,10 +45,10 @@ public class GameStatusScene extends HUD implements IGameListener, IBehavior {
 	private IEntityModifier mRestartInModifier;
 //	private IEntityModifier mAgainOutModifier;
 	
-	private IScorer mScorer;
-	
 	private Lifebar mLLifebar;
 	private Lifebar mRLifebar;
+	private GameScore mLeftScore;
+	private GameScore mRightScore;
 	
 	private VisiblilityStack mVisiblilityStack = new VisiblilityStack();
 	
@@ -81,11 +79,10 @@ public class GameStatusScene extends HUD implements IGameListener, IBehavior {
 		
 		// score
 		float maxDigitWidth = FontUtils.getMaxWidthInDigits(pTextCreator.getFont());
-		GameScore mLeft = new GameScore(maxDigitWidth, SCORE_MAX_BITS, pTextCreator);
-		mLeft.attachToScene(maxDigitWidth * SCORE_MAX_BITS, mLLifebar.getSize().y, this);
-		GameScore mRight = new GameScore(maxDigitWidth, SCORE_MAX_BITS, pTextCreator);
-		mRight.attachToScene(CAMERA_WIDTH, mRLifebar.getSize().y, this);
-		mScorer = new DoubleScorer(mLeft, mRight);
+		mLeftScore = new GameScore(maxDigitWidth, SCORE_MAX_BITS, pTextCreator);
+		mLeftScore.attachToScene(maxDigitWidth * SCORE_MAX_BITS, mLLifebar.getSize().y, this);
+		mRightScore = new GameScore(maxDigitWidth, SCORE_MAX_BITS, pTextCreator);
+		mRightScore.attachToScene(CAMERA_WIDTH, mRLifebar.getSize().y, this);
 		
 		setXCentered(pause);
 		pause.setY(0);
@@ -143,29 +140,33 @@ public class GameStatusScene extends HUD implements IGameListener, IBehavior {
 		mPause.registerEntityModifier(scaleLoop.deepCopy());
 	}
 	
-	public IScorer getScorer() {
-		return mScorer;
-	}
-
 	@Override
-	public void onGameStart(BaseShooter pLeftHero, BaseShooter pRightHero) {
-		mScorer.resetScore();
+	public void onGameStart(Hero pLeftHero, Hero pRightHero) {
 		mPause.setVisible(true);
 		mLabel.setVisible(false);
 		mRestart.setVisible(false);
 		mShare.setVisible(false);
 		mResume.setVisible(false);
+		
 		mLLifebar.setPercent(1);
 		mRLifebar.setPercent(1);
-		pLeftHero.addWoundedBehavior(this);
-		pLeftHero.addHealBehavior(this);
-
-		pRightHero.addWoundedBehavior(this);
-		pRightHero.addHealBehavior(this);
-	}
-
-	private void updateLifebar(Lifebar lifebar, BaseShooter host) {
-		lifebar.setPercent(host.getHealthPercent());
+		
+		pLeftHero.setScoreChangeListener(mLeftScore);
+		pLeftHero.addWoundedBehavior(new IBehavior() {
+			@Override
+			public void onActivated(BaseShooter host, Harmful source, float damage) {
+				mLLifebar.setPercent(host.getHealthPercent());
+			}
+		});
+		
+		pRightHero.setScoreChangeListener(mRightScore);
+		pRightHero.addWoundedBehavior(new IBehavior() {
+			
+			@Override
+			public void onActivated(BaseShooter host, Harmful source, float damage) {
+				mRLifebar.setPercent(host.getHealthPercent());
+			}
+		});
 	}
 
 	private void show(IAreaShape pShape, IEntityModifier pModifier) {
@@ -230,17 +231,5 @@ public class GameStatusScene extends HUD implements IGameListener, IBehavior {
 			
 			mVisibleState.clear();
 		}
-	}
-
-	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
-		Lifebar updating = null;
-		if (host.hasTag(TagManager.sLeftHero)) {
-			updating = mLLifebar;
-		} else if (host.hasTag(TagManager.sRightHero)) {
-			updating = mRLifebar;
-		}
-		
-		updateLifebar(updating, host);
 	}
 }

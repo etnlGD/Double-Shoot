@@ -29,17 +29,20 @@ public class Alien extends BaseShooter implements Harmful, Scoreable {
 	}
 
 	public void setSocre(int scores) {
+		if (scores < 0)
+			throw new IllegalArgumentException("Negative score");
+		
 		mScores = scores;
 	}
 	
 	@Override
-	public int countScore() {
-		return mScores;
+	protected Filter getBulletFilter() {
+		return GameObjectType.EnemyBullet.getSharedFilter();
 	}
 
 	@Override
-	protected Filter getBulletFilter() {
-		return GameObjectType.EnemyBullet.getSharedFilter();
+	public int getTotalScore() {
+		return mScores;
 	}
 
 }

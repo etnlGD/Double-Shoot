@@ -19,6 +19,16 @@ public class SE {
 		mSounds = new HashMap<String, Sound>();
 	}
 
+// <<<<<<< HEAD
+// 	public Sound load(String pPath) throws IOException {
+// 		Sound sound = SoundFactory.createSoundFromAsset(
+// 				mContext.getSoundManager(), mContext, mBase + pPath);
+// 		return sound;
+// 	}
+
+// 	public Sound get(String pPath) {
+// 		return mSounds.get(pPath);
+// =======
 	public Sound put(String pPath, float pVolume) throws IOException {
 		return put(pPath.substring(0, pPath.indexOf(".")), pPath, pVolume);
 	}

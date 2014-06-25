@@ -21,12 +21,14 @@ public class WoundedShining implements IBehavior{
 	}
 	
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
-		if (mAnim.isFinished())
-			mAnim.reset();
-		
-		if (notFinished()) return;
-		host.getShape().registerEntityModifier(mAnim);
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
+		if (damage > 0) {
+			if (mAnim.isFinished())
+				mAnim.reset();
+			
+			if (!notFinished())
+				host.getShape().registerEntityModifier(mAnim);
+		}
 	}
 
 	private boolean notFinished() {

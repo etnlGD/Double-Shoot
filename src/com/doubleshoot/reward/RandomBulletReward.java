@@ -19,7 +19,7 @@ public class RandomBulletReward implements IBehavior {
 		mVoteTimes =  pVoteTimes;
 	}
 	
-	private ArrayList<GOFactory<Reward>> mRewardFactories 
+	private ArrayList<GOFactory<Reward>> mRewardFactories
 		= new ArrayList<GOFactory<Reward>>();
 	
 	public void addRewardType(GOFactory<Reward> factory) {
@@ -27,8 +27,8 @@ public class RandomBulletReward implements IBehavior {
 	}
 	
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
-		if (mRewardFactories.isEmpty())
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
+		if (damage <= 0 || mRewardFactories.isEmpty())
 			return;
 		
 		boolean hasReward = true;
@@ -38,9 +38,9 @@ public class RandomBulletReward implements IBehavior {
 		if (hasReward) {
 			int index = sRandom.nextInt(mRewardFactories.size());
 			GOFactory<Reward> f = mRewardFactories.get(index);
-			IAreaShape shape = host.getShape(); 
-			f.create(host.getEnvironment(), 
-					new Vector2(shape.getX(), shape.getY()), 
+			IAreaShape shape = host.getShape();
+			f.create(host.getEnvironment(),
+					new Vector2(shape.getX(), shape.getY()),
 					new Vector2());
 		}
 	}

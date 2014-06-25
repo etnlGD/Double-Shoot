@@ -39,11 +39,20 @@ public class FixtureFactory {
 		return def;
 	}
 	
-	
-	public static FixtureDef sensor() {
+	public static FixtureDef sensor(Filter filter) {
 		FixtureDef def = new FixtureDef();
 		def.isSensor = true;
+		if (filter != null) {
+			def.filter.categoryBits = filter.categoryBits;
+			def.filter.groupIndex = filter.groupIndex;
+			def.filter.maskBits = filter.maskBits;
+		}
+		
 		return def;
+	}
+	
+	public static FixtureDef sensor() {
+		return sensor(null);
 	}
 	
 }

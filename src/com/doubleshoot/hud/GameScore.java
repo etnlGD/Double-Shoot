@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.andengine.entity.scene.Scene;
 
-import com.doubleshoot.score.IScoreListener;
+import com.doubleshoot.score.IScoreChangeListener;
 
-public class GameScore implements IScoreListener, HudItem {
+public class GameScore implements IScoreChangeListener, HudItem {
 	private static final float[] DURATION_TABLE = {
 		0.2f, 0.3f, 0.4f, 0.5f
 	};
@@ -28,22 +28,18 @@ public class GameScore implements IScoreListener, HudItem {
 	}
 
 	@Override
-	public void onScoreChange(int pDelta) {
-		if (pDelta == 0) return;
-		
-		final int next = add(mCurrentScore, pDelta);
-		
-		ensureBitsSize(next);
-		validateEachBit(next, mCurrentScore);
-		
-		mCurrentScore = next;
+	public void onScoreChanged(int current, int pDelta) {
+		pDelta = current - mCurrentScore;
+		if (pDelta != 0) {
+			final int next = add(mCurrentScore, pDelta);
+			
+			ensureBitsSize(next);
+			validateEachBit(next, mCurrentScore);
+			
+			mCurrentScore = next;
+		}
 	}
 	
-	@Override
-	public void onScoreReset() {
-		onScoreChange(-mCurrentScore);
-	}
-
 	private int add(int pX1, int pX2) {
 		int next = pX1 + pX2;
 		

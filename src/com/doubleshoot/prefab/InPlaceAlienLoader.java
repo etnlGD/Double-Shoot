@@ -3,12 +3,15 @@ package com.doubleshoot.prefab;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import android.opengl.GLES20;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.doubleshoot.alien.Alien;
 import com.doubleshoot.alien.AlienFactory;
 import com.doubleshoot.alien.DeadBulletBehavior;
 import com.doubleshoot.alien.RevengeBehavior;
+import com.doubleshoot.behavior.BombBehavior;
 import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.body.BodyBuilder;
 import com.doubleshoot.body.BodyFactory;
@@ -28,8 +31,10 @@ import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.ShooterBehaviorFilter;
 import com.doubleshoot.texture.IRegionManager;
+import com.doubleshoot.texture.SimpleTextureRegion;
 
 public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
+	public static int RESERVE_COUNT = 16;
 	private FixtureDef mAlienDef;
 	private GORegistry<Bullet> mBulletRegistry;
 	private GORegistry<Reward> mRewardRegistry;
@@ -66,14 +71,14 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		if (region == null)
 			throw new RuntimeException("No region found");
 		
-		TexturedSpriteFactory factory = new TexturedSpriteFactory(vbom, region);
-		factory.textureName = name;	// TODO remove
+		TexturedSpriteFactory factory = new TexturedSpriteFactory(vbom, region, name);
+		factory.reserve(RESERVE_COUNT);
 		return factory;
 	}
 	
 	private GOFactory<Alien>
 	loadYellow(VertexBufferObjectManager vbom, IRegionManager regions) {
-		AlienFactory af = newAlien(200, 50, 5,
+		AlienFactory af = newAlien(100, 50, 4,
 				checkShape(vbom, regions, "Alien.Yellow"), newBodyFactory(3, 16));
 		Barrel b = new Barrel(
 				new RandomDirectionDistribution(90, 90),
@@ -88,7 +93,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 	
 	private GOFactory<Alien>
 	loadBlue(VertexBufferObjectManager vbom, IRegionManager regions) {
-		AlienFactory af = newAlien(100, 100, 20,
+		AlienFactory af = newAlien(100, 100, 16,
 				checkShape(vbom, regions, "Alien.Blue"), newBodyFactory(3, 16));
 		Barrel b = new Barrel(
 				new RandomDirectionDistribution(75, 105),
@@ -97,7 +102,6 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		b.setBarrelPosition(16, 16);
 		af.setBarrel(0, b);
 		af.setShootPolicy(new ContinuousShootPolicy());
-		af.addTag("DeadBullet");
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addDeadBehavior(new DeadBulletBehavior(
@@ -115,29 +119,68 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 							mRewardRegistry.getFactoryNameAt(i)));
 		}
 		
-		return rewards; 
+		return rewards;
 	}
 	
 	private GOFactory<Alien>
 	loadWhite(VertexBufferObjectManager vbom, IRegionManager regions) {
-		AlienFactory af = newAlien(100, 100, 10,
+		AlienFactory af = newAlien(150, 120, 8,
 				checkShape(vbom, regions, "Alien.White"), newBodyFactory(3, 16));
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
-		filter.addDeadBehavior(new RevengeBehavior(250, 240));
+		filter.addWoundedBehavior(new RevengeBehavior(250, 240));
 		filter.addDeadBehavior(newBulletReward(4));
 		pipeline.addFilter(filter);
+		
 		return pipeline;
 	}
 	
 	private GOFactory<Alien>
 	loadGreen(VertexBufferObjectManager vbom, IRegionManager regions) {
-		AlienFactory af = newAlien(200, 150, 2,
+		AlienFactory af = newAlien(100, 150, 4,
 				checkShape(vbom, regions, "Alien.Green"), newBodyFactory(3, 16));
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
-		filter.addDeadBehavior(new RevengeBehavior(250, 240));
 		filter.addDeadBehavior(newBulletReward(1));
+		pipeline.addFilter(filter);
+		return pipeline;
+	}
+	
+	private GOFactory<Alien>
+	loadHuge(VertexBufferObjectManager vbom, IRegionManager regions) {
+		AlienFactory af = newAlien(1000, 800, 128,
+				checkShape(vbom, regions, "Alien.Huge"),
+				newBodyFactory(46, 10, 8, 36));
+		
+		af.addTag("Huge");
+		
+		// TODO change to other bullet
+		Barrel left = new Barrel(
+				new RandomDirectionDistribution(90, 90),
+				mBulletRegistry.getFilteredFactory("HugeYellow"));
+		left.setBarrelPosition(27, 57);
+		left.setFrozenCycle(0.4f);
+		af.setBarrel(0, left);
+		
+		Barrel right = new Barrel(
+				new RandomDirectionDistribution(90, 90),
+				mBulletRegistry.getFilteredFactory("HugeYellow"));
+		right.setBarrelPosition(63, 57);
+		right.setFrozenCycle(0.4f);
+		af.setBarrel(1, right);
+		
+		ITextureRegion[] subRegions = new ITextureRegion[12];
+		for (int i = 0; i < subRegions.length; ++i)
+			subRegions[i] = regions.getRegion("Bomb." + i);
+		TexturedSpriteFactory shapeFactory = new TexturedSpriteFactory(
+				vbom, SimpleTextureRegion.join(subRegions), "bomb");
+		shapeFactory.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
+		
+		af.setShootPolicy(new ContinuousShootPolicy());
+		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
+		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
+		// bomb
+		filter.addDeadBehavior(new BombBehavior(1, shapeFactory));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
@@ -149,6 +192,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		callback.onNewFactory(AlienType.WITH_DEAD, loadBlue(vbom, regions));
 		callback.onNewFactory(AlienType.NO_BULLET, loadGreen(vbom, regions));
 		callback.onNewFactory(AlienType.REVENGER, loadWhite(vbom, regions));
+		callback.onNewFactory(AlienType.HUGE, loadHuge(vbom, regions));
 	}
 
 }

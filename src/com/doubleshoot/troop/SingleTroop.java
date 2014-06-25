@@ -2,6 +2,7 @@ package com.doubleshoot.troop;
 
 import com.badlogic.gdx.math.Vector2;
 import com.doubleshoot.alien.Alien;
+import com.doubleshoot.body.VectorConstant;
 import com.doubleshoot.motion.IMotion;
 import com.doubleshoot.object.GOEnvironment;
 import com.doubleshoot.object.GOFactory;
@@ -41,7 +42,7 @@ public class SingleTroop implements ITroop {
 		assert(delay >= 0);
 		
 		GOFactory<Alien> factory = mAlienRegistry.getFilteredFactory(soldierType);
-		Alien alien = factory.create(pEnv, pos, new Vector2());
+		Alien alien = factory.create(pEnv, pos, VectorConstant.zero);
 		alien.getShape().getWidthScaled();
 		alien.setMotion(motion);
 		index++;

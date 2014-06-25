@@ -70,5 +70,4 @@ public class PathMotion implements IMotion {
 			
 		}
 	}
-
 }

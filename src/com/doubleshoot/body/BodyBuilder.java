@@ -114,6 +114,11 @@ public class BodyBuilder implements BodyFactory {
 		return body;
 	}
 	
+	@Override
+	protected void finalize() {
+		dispose();
+	}
+	
 	public void dispose() {
 		for (FixtureDef fDef : mFixtureDefs)
 			fDef.shape.dispose();

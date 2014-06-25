@@ -6,13 +6,14 @@ import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
 import com.doubleshoot.shooter.TagManager;
 
+// Dead
 public class HeroDeadListener implements IBehavior {
 	private final int mInitLives;
 	private int mLeftLives;
 	private int mRightLives;
 	private IGameListener mListener;
 	
-	public HeroDeadListener(int pInitLives, IGameListener pListener) { 
+	public HeroDeadListener(int pInitLives, IGameListener pListener) {
 		mInitLives = pInitLives;
 		mListener = pListener;
 	}
@@ -37,7 +38,7 @@ public class HeroDeadListener implements IBehavior {
 	}
 
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
 		if (host.hasTag(TagManager.sLeftHero)) {
 			livesDetect("Left", mLeftLives);
 			--mLeftLives;

@@ -8,6 +8,8 @@ import org.andengine.entity.sprite.AnimatedSprite;
 
 import com.badlogic.gdx.math.Vector2;
 import com.doubleshoot.alien.Alien;
+import com.doubleshoot.body.BodyBuilder;
+import com.doubleshoot.body.SimpleBodyBuilder;
 import com.doubleshoot.bullet.Barrel;
 import com.doubleshoot.bullet.Bullet;
 import com.doubleshoot.bullet.BulletEmitter;
@@ -19,22 +21,32 @@ import com.doubleshoot.input.DoubleHeroController;
 import com.doubleshoot.object.GOEnvironment;
 import com.doubleshoot.object.GOFactory;
 import com.doubleshoot.object.GORegistry;
-import com.doubleshoot.shooter.BaseShooter;
+import com.doubleshoot.object.GameObject;
+import com.doubleshoot.object.ITaggedObject;
+import com.doubleshoot.score.IScorer;
+import com.doubleshoot.score.ScorerFinder;
+import com.doubleshoot.shooter.BarrierObject;
+import com.doubleshoot.shooter.FixtureFactory;
+import com.doubleshoot.shooter.GameObjectType;
+import com.doubleshoot.shooter.Harmful;
 import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.troop.RandomTroopGenerator;
 import com.doubleshoot.troop.TroopDispatcher;
 import com.doubleshoot.troop.TroopGenerator;
 
-public class Game extends CompositeGameListener {
+public class Game extends CompositeGameListener implements ScorerFinder {
 	private static final float CONTROLLER_MARGIN = 60;
 	
 	private GORegistry<Bullet> mBulletRegistry;
 	private GORegistry<Alien> mAlienRegistry;
 	private GOFactory<Hero> mHeroFactory;
+	private GOFactory<GameObject> mBarrierFactory;
 	private GOEnvironment mGOEnv;
 	private HeroDeadListener mHeroDeadListener;
 	
 	private TroopGenerator mTroopGenerator;
+	private Hero mLeftHero;
+	private Hero mRightHero;
 	
 	public Game(GOFactory<Hero> pHeroFactory, GOEnvironment pEnv,
 			GORegistry<Bullet> pBulletRegistry, GORegistry<Alien> pAlienRegistry) {
@@ -45,6 +57,11 @@ public class Game extends CompositeGameListener {
 		
 		mTroopGenerator = RandomTroopGenerator.create();
 		mHeroDeadListener = new HeroDeadListener(1, this);
+		
+		BodyBuilder builder = SimpleBodyBuilder.newBox(CAMERA_WIDTH, 10,
+				FixtureFactory.sensor(GameObjectType.AllEnemyObject.getSharedFilter()));
+		
+		mBarrierFactory = BarrierObject.newFactory(builder, null);
 	}
 	
 	private void setUpHero(Hero hero, String tag) {
@@ -75,31 +92,40 @@ public class Game extends CompositeGameListener {
 		super.onGameover();
 	}
 	
-	public void newGame() {
-		Hero left = mHeroFactory.create(mGOEnv,
-				new Vector2(CAMERA_WIDTH*0.25f, CAMERA_HEIGHT), new Vector2());
-		setUpHero(left, TagManager.sLeftHero);
-		setDefaultEmitter(mGOEnv, left, .3f, 3);
+	public void newGame(boolean restart) {
+		if (restart) {
+			GameObject barrier = mBarrierFactory.create(mGOEnv,
+					new Vector2(CAMERA_WIDTH/2, CAMERA_HEIGHT),	// pos
+					new Vector2());								// dir
+			
+			barrier.getBody().setLinearVelocity(0, -960f/32);
+		}
 		
-		Hero right = mHeroFactory.create(mGOEnv,
+		mLeftHero = mHeroFactory.create(mGOEnv,
+				new Vector2(CAMERA_WIDTH*0.25f, CAMERA_HEIGHT), new Vector2());
+		setUpHero(mLeftHero, TagManager.sLeftHero);
+		setDefaultEmitter(mGOEnv, mLeftHero, .3f, 3);
+		
+		mRightHero = mHeroFactory.create(mGOEnv,
 				new Vector2(CAMERA_WIDTH*0.75f, CAMERA_HEIGHT), new Vector2());
-		setUpHero(right, TagManager.sRightHero);
-		setDefaultEmitter(mGOEnv, right, .1f, 1);
+		setUpHero(mRightHero, TagManager.sRightHero);
+		setDefaultEmitter(mGOEnv, mRightHero, .1f, 1);
 		
 		float[] seperators = {
 				CONTROLLER_MARGIN, CAMERA_WIDTH/2 - CONTROLLER_MARGIN,
 				CAMERA_WIDTH/2 + CONTROLLER_MARGIN, CAMERA_WIDTH-CONTROLLER_MARGIN
 				};
-		DoubleHeroController controller = new DoubleHeroController(left, right, seperators);
-		
-		getScene().setOnSceneTouchListener(controller);
-		onGameStart(left, right);
+
+		getScene().setOnSceneTouchListener(
+				new DoubleHeroController(mLeftHero, mRightHero, seperators));
+		onGameStart(mLeftHero, mRightHero);
 	}
 	
 	@Override
-	public void onGameStart(BaseShooter pLeftHero, BaseShooter pRightHero) {
+	public void onGameStart(Hero pLeftHero, Hero pRightHero) {
 		mHeroDeadListener.reset();
 		mGOEnv.cancelAll();
+		
 		new TroopDispatcher(mGOEnv, mAlienRegistry, mTroopGenerator).run();
 		super.onGameStart(pLeftHero, pRightHero);
 	}
@@ -121,8 +147,30 @@ public class Game extends CompositeGameListener {
 		getScene().setIgnoreUpdate(false);
 		mPaused = false;
 	}
+
+	@Override
+	public IScorer findScorer(Harmful harmful) {
+		if (harmful instanceof ITaggedObject) {
+			ITaggedObject obj = (ITaggedObject) harmful;
+			if (obj.hasTag(TagManager.sLeftHero)) {
+				return mLeftHero;
+			} else if (obj.hasTag(TagManager.sRightHero)) {
+				return mRightHero;
+			}
+		}
+		
+		return null;
+	}
 	
 	public boolean isPaused() {
 		return mPaused;
+	}
+
+	public void getScores(int[] scores) {
+		if (mLeftHero != null)
+			scores[0] = mLeftHero.getScore();
+		
+		if (mRightHero != null)
+			scores[1] = mRightHero.getScore();
 	}
 }

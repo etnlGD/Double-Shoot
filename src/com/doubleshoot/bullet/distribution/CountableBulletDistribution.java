@@ -20,5 +20,4 @@ public abstract class CountableBulletDistribution implements BulletDistribution 
 		if (index < 0 || index >= mCount)
 			throw new ArrayIndexOutOfBoundsException();
 	}
-	
 }

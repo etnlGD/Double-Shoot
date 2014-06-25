@@ -3,6 +3,7 @@ package com.doubleshoot.object;
 import org.andengine.engine.Engine;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.math.Vector2;
 import com.doubleshoot.schedule.IScheduler;
@@ -38,6 +39,10 @@ public class GOEnvironment implements IScheduler, ICoordnateTransformer {
 	
 	public PhysicsWorld getWorld() {
 		return mWorld;
+	}
+	
+	public VertexBufferObjectManager getVBOManager() {
+		return mEngine.getVertexBufferObjectManager();
 	}
 	
 	@Override

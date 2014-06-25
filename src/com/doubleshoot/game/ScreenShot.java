@@ -89,5 +89,4 @@ public class ScreenShot implements IDrawHandler {
 	public static interface IScreenSavedListener {
 		public void onSaved(Bitmap pBitmap);
 	}
-
 }

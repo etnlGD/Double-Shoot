@@ -38,7 +38,6 @@ public abstract class BaseShooter extends GameObject
 	
 	private Set<IBehavior> mWoundedBehaviors = new HashSet<IBehavior>();
 	private Set<IBehavior> mDeadBehaviors = new HashSet<IBehavior>();
-	private Set<IBehavior> mHealBehaviors = new HashSet<IBehavior>();
 	
 	public BaseShooter(IAreaShape shape, Body body, final GOEnvironment pEnv) {
 		super(body, shape, pEnv);
@@ -54,7 +53,10 @@ public abstract class BaseShooter extends GameObject
 	
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
-		if (mShootPolicy != null && mShootPolicy.shouldShoot(this))
+		if (mShootPolicy == null)
+			return;
+		
+		if (mShootPolicy.shouldShoot(this))
 			onShootChance();
 	}
 	
@@ -65,10 +67,8 @@ public abstract class BaseShooter extends GameObject
 	public void resetInitHealth(float initHealth, boolean resetHealth) {
 		mInitialHealth = initHealth;
 		
-		if (resetHealth) {
+		if (resetHealth)
 			mHealth = initHealth;
-			onHeal();
-		}
 	}
 	
 	public void addWoundedBehavior(IBehavior pBehavior) {
@@ -77,10 +77,6 @@ public abstract class BaseShooter extends GameObject
 	
 	public void addDeadBehavior(IBehavior pBehavior) {
 		mDeadBehaviors.add(pBehavior);
-	}
-	
-	public void addHealBehavior(IBehavior pBehavior) {
-		mHealBehaviors.add(pBehavior);
 	}
 	
 	public void resetBulletEmitter() {
@@ -124,12 +120,10 @@ public abstract class BaseShooter extends GameObject
 				if (addition != null)
 					damage = addition.filter(damage);
 				
-				mHealth -= damage;
-				mHealth = mHealth > 0 ? mHealth : 0;
-				onWounded(harmful);
-				if (mHealth <= 0) {
-					mHealth = Math.max(mHealth, 0);
-					onDead(harmful);
+				damage = applyDamage(damage);
+				onWounded(harmful, damage);
+				if (mHealth == 0) {
+					onDead(harmful, damage);
 					destroy();
 				}
 			}
@@ -138,28 +132,31 @@ public abstract class BaseShooter extends GameObject
 		return 1;
 	}
 	
+	private float applyDamage(float damage) {
+		float newHealth = Math.max(mHealth - damage, 0);
+		damage = mHealth - newHealth;
+		mHealth = newHealth;
+		
+		return damage;
+	}
+	
+	private void onWounded(Harmful source, float damage) {
+		for (IBehavior behavior : mWoundedBehaviors)
+			behavior.onActivated(this, source, damage);
+	}
+	
+	private void onDead(Harmful source, float damage) {
+		for (IBehavior behavior : mDeadBehaviors) {
+			behavior.onActivated(this, source, damage);
+		}
+	}
+	
 	public void heal(float percentHealed) {
+		float oldHealth = mHealth;
 		mHealth = mInitialHealth * (percentHealed + getHealthPercent());
 		mHealth = mHealth > mInitialHealth ? mInitialHealth : mHealth;
-		onHeal();
-	}
-	
-	private void onHeal() {
-		notify(null, mHealBehaviors);
-	}
-	
-	private void onWounded(Harmful source) {
-		notify(source, mWoundedBehaviors);
-	}
-	
-	private void onDead(Harmful source) {
-		notify(source, mDeadBehaviors);
-	}
-	
-	private void notify(Harmful source, Set<IBehavior> pBehaviors) {
-		for (IBehavior behavior : pBehaviors) {
-			behavior.onActivated(this, source);
-		}
+		if (mHealth > oldHealth)
+			onWounded(null, oldHealth - mHealth);
 	}
 	
 	@Override
@@ -192,6 +189,10 @@ public abstract class BaseShooter extends GameObject
 	
 	public boolean unregisterAdditinDamage(Object handle) {
 		return mAdditionDamages.remove(handle);
+	}
+	
+	public float getInitHealth() {
+		return mInitialHealth;
 	}
 
 	public float getHealthPercent() {

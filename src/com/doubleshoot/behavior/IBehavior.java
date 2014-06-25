@@ -5,6 +5,6 @@ import com.doubleshoot.shooter.Harmful;
 
 public interface IBehavior {
 	
-	public void onActivated(BaseShooter host, Harmful source);
+	public void onActivated(BaseShooter host, Harmful source, float damage);
 	
 }

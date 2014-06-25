@@ -10,9 +10,8 @@ import com.doubleshoot.shape.ShapeFactory;
 public class ShooterVisualFilter<T extends BaseShooter> implements GOFilter<T> {
 	private IBehavior mExplosionBehavior;
 	
-	public ShooterVisualFilter(
-			IScheduler pScheduler, ShapeFactory explosionShapeFactory) {
-		mExplosionBehavior = new ExplosionBehavior(pScheduler, explosionShapeFactory);
+	public ShooterVisualFilter(IScheduler pScheduler, ShapeFactory explosionShapeFactory) {
+		 mExplosionBehavior = new ExplosionBehavior(pScheduler, explosionShapeFactory);
 	}
 	
 	@Override

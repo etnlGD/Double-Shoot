@@ -2,7 +2,6 @@ package com.doubleshoot.alien;
 
 import org.andengine.entity.shape.IAreaShape;
 
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.bullet.Barrel;
 import com.doubleshoot.bullet.Bullet;
@@ -12,8 +11,10 @@ import com.doubleshoot.bullet.distribution.CircleDistribution;
 import com.doubleshoot.object.GOFactory;
 import com.doubleshoot.object.ITaggedObject;
 import com.doubleshoot.shooter.BaseShooter;
+import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
 
+// Dead
 public class DeadBulletBehavior implements IBehavior {
 	private GOFactory<Bullet> mBulletPrototype;
 	private int mBulletCount;
@@ -24,7 +25,7 @@ public class DeadBulletBehavior implements IBehavior {
 	}
 
 	@Override
-	public void onActivated(BaseShooter host, final Harmful source) {
+	public void onActivated(BaseShooter host, final Harmful source, float damage) {
 		IAreaShape shape = host.getShape();
 		float w = shape.getWidthScaled();
 		float h = shape.getHeightScaled();
@@ -41,15 +42,11 @@ public class DeadBulletBehavior implements IBehavior {
 			
 			@Override
 			public void onNewBullet(Bullet bullet) {
-				Filter f = new Filter();
-				f.categoryBits = -1;
-				f.maskBits = -1;
-				bullet.setFilter(f);
+				bullet.setFilter(GameObjectType.AllPlane.getSharedFilter());
 				
 				if (source instanceof ITaggedObject)
 					bullet.addTags(((ITaggedObject) source).allTags());
 			}
 		});
 	}
-
 }

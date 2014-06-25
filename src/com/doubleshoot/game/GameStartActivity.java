@@ -97,9 +97,9 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		return new EngineOptions(true, 
-								ScreenOrientation.LANDSCAPE_FIXED, 
-								new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), 
+		return new EngineOptions(true,
+								ScreenOrientation.LANDSCAPE_FIXED,
+								new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT),
 								new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT));
 	}
 
@@ -176,7 +176,7 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 	}
 	
 	private void attachTitle(Scene pScene) {
-		VertexBufferObjectManager vbom = getVertexBufferObjectManager(); 
+		VertexBufferObjectManager vbom = getVertexBufferObjectManager();
 		
 		float x = 0;
 		float y = CAMERA_HEIGHT/4.f;
@@ -200,7 +200,7 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 			
 			IEntityModifier fallDown = new MoveYModifier(1.f, letter.getY(), y, EaseBounceOut.getInstance());
 			IEntityModifier colorChange = new SequenceEntityModifier(
-					new DelayModifier(i * timeUnit), 
+					new DelayModifier(i * timeUnit),
 					new JumpModifier(timeUnit, letter.getX(), letter.getX(), y, y, 20, EaseCircularInOut.getInstance()),
 					new DelayModifier((mTitle.length-i-1) * timeUnit));
 			
@@ -217,9 +217,9 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 		VertexBufferObjectManager vbom = getVertexBufferObjectManager();
 		
 		float flightPos[] = {
-				-mFlight.getWidth() * 2, 					
-				(CAMERA_WIDTH - mFlight.getWidth())/2, 	
-				CAMERA_WIDTH + mFlight.getWidth(), 		
+				-mFlight.getWidth() * 2,
+				(CAMERA_WIDTH - mFlight.getWidth())/2,
+				CAMERA_WIDTH + mFlight.getWidth(),
 		};
 		
 		mPlayButton = new ButtonSprite(
@@ -275,5 +275,4 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 		Intent startGame = new Intent(GameStartActivity.this, GameActivity.class);
 		startActivity(startGame);
 	}
-    
 }

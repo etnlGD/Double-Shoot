@@ -20,6 +20,7 @@ public class Bullet extends GameObject implements Harmful {
 	private boolean mPenetrating;
 	private BulletListener mListener;
 	private IEntity mShooter;
+	
 	private IUpdateHandler mMotionUpdater;
 	
 	public Bullet(float damage, boolean penetrating, IAreaShape pBulletShape, Body body, GOEnvironment pEnv,

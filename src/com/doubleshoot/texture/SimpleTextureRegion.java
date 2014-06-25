@@ -15,4 +15,10 @@ public class SimpleTextureRegion {
 	public static ITiledTextureRegion titledTexture(ITexture tex, int cols, int rows) {
 		return TiledTextureRegion.create(tex, 0, 0, tex.getWidth(), tex.getHeight(), cols, rows);
 	}
+	
+	public static ITiledTextureRegion join(ITextureRegion... subRegions) {
+		ITexture tex = subRegions[0].getTexture();
+		return new TiledTextureRegion(tex, subRegions);
+	}
+	
 }

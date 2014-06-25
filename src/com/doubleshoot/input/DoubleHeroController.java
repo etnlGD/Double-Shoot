@@ -39,5 +39,4 @@ public class DoubleHeroController implements IOnSceneTouchListener {
 		
 		return false;
 	}
-
 }

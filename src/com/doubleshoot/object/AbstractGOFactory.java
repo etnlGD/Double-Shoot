@@ -32,7 +32,9 @@ public abstract class AbstractGOFactory<T extends GameObject>
 	
 	@Override
 	public T create(GOEnvironment env, Vector2 pos, Vector2 velocity) {
-		IAreaShape shape = mShapeFactory.createShape();
+		IAreaShape shape = null;
+		if (mShapeFactory != null)
+			shape = mShapeFactory.createShape();
 		
 		float angle = (float) Math.toDegrees(getRotation(velocity));
 		Body body = mBodyFactory.createBody(env.getWorld(), mBodyType, pos, angle);
