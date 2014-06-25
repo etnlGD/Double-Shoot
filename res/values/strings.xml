@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<<<<<<< HEAD
-    <string name="app_name">双排射击</string>
-=======
     <string name="app_name">双人射击</string>
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
@@ -17,9 +13,5 @@
 	<string name="wx_app_id">wx82a06abc7b03cfab</string>
 	<string name="share_title">DoubleShoot</string>
 	<string name="download_url">http://www.baidu.com</string>
-<<<<<<< HEAD
-=======
-	
 	<string name="press_again">"再按一次返回主菜单"</string>
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 </resources>
