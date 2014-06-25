@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">双排射击</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="errcode_success">发送成功</string>
+	<string name="errcode_cancel">发送取消</string>
+	<string name="errcode_deny">发送被拒绝</string>
+	<string name="errcode_unknown">发送返回</string>
+
+	<string name="wx_app_id">wx82a06abc7b03cfab</string>
+	<string name="share_title">DoubleShoot</string>
+	<string name="download_url">http://www.baidu.com</string>
+</resources>

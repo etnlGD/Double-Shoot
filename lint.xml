@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="WrongCall">
+        <ignore path="src/com/doubleshoot/game/ScreenShot.java" />
+        <ignore path="src/com/etnlGD/parallax/HVParallaxEntity.java" />
+    </issue>
+</lint>
