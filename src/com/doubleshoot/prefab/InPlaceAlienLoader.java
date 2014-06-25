@@ -111,14 +111,12 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		return pipeline;
 	}
 	
-	private IBehavior newBulletReward(int voteTimes) {
+	private IBehavior newBulletReward(int voteTimes, String ...rewardNames) {
 		RandomBulletReward rewards = new RandomBulletReward(voteTimes);
-		for (int i = 0; i < mRewardRegistry.size(); i++) {
+		for (int i = 0; i < rewardNames.length; i++) {
 			rewards.addRewardType(
-					mRewardRegistry.getFilteredFactory(
-							mRewardRegistry.getFactoryNameAt(i)));
+					mRewardRegistry.getFilteredFactory(rewardNames[i]));
 		}
-		
 		return rewards;
 	}
 	
@@ -129,7 +127,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addWoundedBehavior(new RevengeBehavior(250, 240));
-		filter.addDeadBehavior(newBulletReward(4));
+		filter.addDeadBehavior(newBulletReward(4, "LaserReward"));
 		pipeline.addFilter(filter);
 		
 		return pipeline;
@@ -141,7 +139,8 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 				checkShape(vbom, regions, "Alien.Green"), newBodyFactory(3, 16));
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
-		filter.addDeadBehavior(newBulletReward(1));
+		filter.addDeadBehavior(
+				newBulletReward(3, "ScatterReward", "MissileReward", "ParallelReward"));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
@@ -154,7 +153,6 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		
 		af.addTag("Huge");
 		
-		// TODO change to other bullet
 		Barrel left = new Barrel(
 				new RandomDirectionDistribution(90, 90),
 				mBulletRegistry.getFilteredFactory("HugeYellow"));
@@ -181,6 +179,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		// bomb
 		filter.addDeadBehavior(new BombBehavior(1, shapeFactory));
+		filter.addDeadBehavior(newBulletReward(1, "HealReward"));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
