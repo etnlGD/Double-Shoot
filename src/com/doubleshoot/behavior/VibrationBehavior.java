@@ -16,7 +16,8 @@ public class VibrationBehavior implements IBehavior {
 
 	@Override
 	public void onActivated(BaseShooter host, Harmful source, float damage) {
-		mEngine.vibrate(mMilliseconds);
+		if (damage > 0)
+			mEngine.vibrate(mMilliseconds);
 	}
 
 }

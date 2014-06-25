@@ -31,9 +31,6 @@ import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.color.Color;
 
 import android.content.res.AssetManager;
-import android.graphics.Typeface;
-import android.opengl.GLES20;
-import android.util.Log;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
@@ -45,7 +42,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.doubleshoot.alien.Alien;
 import com.doubleshoot.alien.DeadScoreBehavior;
 import com.doubleshoot.alien.WoundScoreBehavior;
-import com.doubleshoot.alien.ScorerBehaviorWapper;
 import com.doubleshoot.audio.SE;
 import com.doubleshoot.behavior.ExplosionSound;
 import com.doubleshoot.behavior.VibrationBehavior;
@@ -71,7 +67,6 @@ import com.doubleshoot.prefab.InPlaceAlienLoader;
 import com.doubleshoot.prefab.InPlaceBulletLoader;
 import com.doubleshoot.prefab.InPlaceRewardLoader;
 import com.doubleshoot.reward.Reward;
-import com.doubleshoot.score.IScorer;
 import com.doubleshoot.shape.ShapeFactory;
 import com.doubleshoot.shape.TexturedSpriteFactory;
 import com.doubleshoot.share.WXShare;
@@ -81,13 +76,12 @@ import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.ShooterBehaviorFilter;
 import com.doubleshoot.shooter.ShooterVisualFilter;
-import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.texture.CachedTextureFactory;
 import com.doubleshoot.texture.IRegionManager;
 import com.doubleshoot.texture.ITextureFactory;
 import com.umeng.analytics.MobclickAgent;
 
-public class GameActivity extends BaseGameActivity 
+public class GameActivity extends BaseGameActivity
 				implements OnClickListener, IScreenSavedListener {
 	public static final float SCREEN_RATIO = 16.f/9;
 	public static final float CAMERA_WIDTH = 800;
@@ -249,7 +243,6 @@ public class GameActivity extends BaseGameActivity
 		GOFilter<BaseShooter> shooterFilter =
 				new ShooterVisualFilter<BaseShooter>(pEnv, shapeFactory);
 		
-<<<<<<< HEAD
 		// Create Hero
 		FixtureDef heroDef = FixtureFactory.createFixture(GameObjectType.HeroPlane, 1);
 		BodyFactory heroBodyFactory = SimpleBodyBuilder.newBox(45, 32, heroDef);
@@ -257,50 +250,16 @@ public class GameActivity extends BaseGameActivity
 				new TexturedSpriteFactory(vbom, mRegions, "TiledHero");
 		heroShapeFactory.setScale(0.8f);
 		HeroFactory heroFactory = new HeroFactory(Float.MAX_VALUE, 300);
-=======
-		ShooterBehaviorFilter soundFilter = new ShooterBehaviorFilter();
-		soundFilter.addDeadBehavior(new ExplosionSound(mSoundSet.get("explosion")));
-		
-		// Create Hero
-		FixtureDef heroDef = FixtureFactory.createFixture(GameObjectType.HeroPlane, 1);
-		BodyFactory heroBodyFactory = SimpleBodyBuilder.newBox(45, 32, heroDef);
-		ShapeFactory heroShapeFactory = new TexturedSpriteFactory(vbom, mRegions.getRegion("TiledHero"), 0.8f);
-		HeroFactory heroFactory = new HeroFactory(Float.MAX_VALUE, 500);
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		heroFactory.setShapeFactory(heroShapeFactory);
 		heroFactory.setBodyFactory(heroBodyFactory);
 		GOPipeline<Hero> heroPipeline = new GOPipeline<Hero>(heroFactory);
 		heroPipeline.addFilter(shooterFilter);
-<<<<<<< HEAD
-		ShooterBehaviorFilter heroBehaviors = new ShooterBehaviorFilter();
-		heroBehaviors.addWoundedBehavior(new VibrationBehavior(mEngine, 50));
-		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
-//		heroBehaviors.addDeadBehavior(new IBehavior() {
-//
-//			@Override
-//			public void onActivated(BaseShooter host, Harmful source) {
-//				if (host.hasTag(TagManager.sLeftHero)) {
-//					mLeftShot = new ScreenShot(getEngine());
-//					mLeftShot.captureRequest();
-//					mEngine.registerDrawHandler(mLeftShot);
-//				} else {
-//					mRightShot = new ScreenShot(getEngine());
-//					mRightShot.captureRequest();
-//					mEngine.registerDrawHandler(mRightShot);
-//				}
-//			}
-//		});
-		heroPipeline.addFilter(heroBehaviors);
 		
-		GORegistry<Bullet> bulletRegistry = new ConcreteGORegistry<Bullet>();
-		GOFactoryLoader<Bullet> bulletLoader = new InPlaceBulletLoader();
-		RegistryFiller.fill(bulletRegistry, bulletLoader, vbom, mRegions);
-		
-		GORegistry<Alien> alienRegistry = new ConcreteGORegistry<Alien>();
-		alienRegistry.addFilter(shooterFilter);
-		GOFactoryLoader<Alien> alienLoader = new InPlaceAlienLoader(bulletRegistry);
-=======
+//<<<<<<< HEAD
+		ShooterBehaviorFilter soundFilter = new ShooterBehaviorFilter();
+		soundFilter.addDeadBehavior(new ExplosionSound(mSoundSet.get("explosion")));
 		heroPipeline.addFilter(soundFilter);
+		
 		ShooterBehaviorFilter heroBehaviors = new ShooterBehaviorFilter();
 		heroBehaviors.addWoundedBehavior(new VibrationBehavior(mEngine, 50));
 		heroBehaviors.addDeadBehavior(new VibrationBehavior(mEngine, 500));
@@ -318,27 +277,19 @@ public class GameActivity extends BaseGameActivity
 		
 		GORegistry<Alien> alienRegistry = new ConcreteGORegistry<Alien>();
 		alienRegistry.addFilter(shooterFilter);
-		ShooterBehaviorFilter scoreFilter = new ShooterBehaviorFilter();
-		scoreFilter.addWoundedBehavior(new ScorerBehaviorWapper(mHud.getScorer()));
-		alienRegistry.addFilter(scoreFilter);
-		alienRegistry.addFilter(soundFilter);
-		GOFactoryLoader<Alien> alienLoader = 
-				new InPlaceAlienLoader(bulletRegistry, rewardRegistry);
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
+		GOFactoryLoader<Alien> alienLoader = new InPlaceAlienLoader(bulletRegistry, rewardRegistry);
+		
 		RegistryFiller.fill(alienRegistry, alienLoader, vbom, mRegions);
 		
 		mGame = new Game(heroPipeline, pEnv, bulletRegistry, alienRegistry);
 		mGame.appendListener(mHud);
-<<<<<<< HEAD
 		mGame.newGame(false);
-		
+
 		ShooterBehaviorFilter scoreFilter = new ShooterBehaviorFilter();
 		scoreFilter.addDeadBehavior(new DeadScoreBehavior(mGame));
 		scoreFilter.addWoundedBehavior(new WoundScoreBehavior(mGame));
 		alienRegistry.addFilter(scoreFilter);
-=======
-		mGame.newGame();
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
+		alienRegistry.addFilter(soundFilter);
 		
 		populateCallback.onPopulateSceneFinished();
 	}
@@ -371,8 +322,8 @@ public class GameActivity extends BaseGameActivity
 				
 				@Override
 				public void run() {
-					Toast.makeText(GameActivity.this, 
-							getResources().getString(R.string.press_again), 
+					Toast.makeText(GameActivity.this,
+							getResources().getString(R.string.press_again),
 							Toast.LENGTH_SHORT).show();
 				}
 			});
@@ -403,11 +354,10 @@ public class GameActivity extends BaseGameActivity
 
 	@Override
 	public void onSaved(Bitmap pBitmap) {
-		IScorer score = mHud.getScorer();
-		int left = score.getScore(TagManager.sLeftHero);
-		int right = score.getScore(TagManager.sRightHero);
 		try {
-			mShare.share(pBitmap, left, right);
+			int[] scores = { 0, 0 };
+			mGame.getScores(scores);
+			mShare.share(pBitmap, scores[0], scores[1]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

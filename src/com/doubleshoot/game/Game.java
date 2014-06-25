@@ -29,7 +29,6 @@ import com.doubleshoot.shooter.BarrierObject;
 import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
-import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.troop.RandomTroopGenerator;
 import com.doubleshoot.troop.TroopDispatcher;
@@ -165,5 +164,13 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 	
 	public boolean isPaused() {
 		return mPaused;
+	}
+
+	public void getScores(int[] scores) {
+		if (mLeftHero != null)
+			scores[0] = mLeftHero.getScore();
+		
+		if (mRightHero != null)
+			scores[1] = mRightHero.getScore();
 	}
 }

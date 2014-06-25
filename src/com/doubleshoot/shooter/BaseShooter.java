@@ -132,7 +132,6 @@ public abstract class BaseShooter extends GameObject
 		return 1;
 	}
 	
-<<<<<<< HEAD
 	private float applyDamage(float damage) {
 		float newHealth = Math.max(mHealth - damage, 0);
 		damage = mHealth - newHealth;
@@ -153,9 +152,11 @@ public abstract class BaseShooter extends GameObject
 	}
 	
 	public void heal(float percentHealed) {
+		float oldHealth = mHealth;
 		mHealth = mInitialHealth * (percentHealed + getHealthPercent());
 		mHealth = mHealth > mInitialHealth ? mInitialHealth : mHealth;
-		onHeal();
+		if (mHealth > oldHealth)
+			onWounded(null, oldHealth - mHealth);
 	}
 	
 	@Override

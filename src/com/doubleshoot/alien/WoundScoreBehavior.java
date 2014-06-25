@@ -11,7 +11,10 @@ public class WoundScoreBehavior extends ScoreGainBehavior {
 
 	@Override
 	protected int calculateGained(BaseShooter host, int totalScore, float damage) {
-		return (int) (totalScore * damage / host.getInitHealth() * 0.5f);
+		if (damage > 0)
+			return (int) (totalScore * damage / host.getInitHealth() * 0.5f);
+		
+		return 0;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.doubleshoot.alien;
 
 import org.andengine.entity.shape.IAreaShape;
 
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.bullet.Barrel;
 import com.doubleshoot.bullet.Bullet;
@@ -15,6 +14,7 @@ import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
 
+// Dead
 public class DeadBulletBehavior implements IBehavior {
 	private GOFactory<Bullet> mBulletPrototype;
 	private int mBulletCount;

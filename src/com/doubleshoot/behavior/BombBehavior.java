@@ -17,6 +17,7 @@ import com.doubleshoot.shooter.FixtureFactory;
 import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
 
+// Dead
 public class BombBehavior implements IBehavior {
 	private float mPersistTime;
 	private ShapeFactory mBombShapeFactory;

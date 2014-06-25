@@ -9,7 +9,6 @@ import com.doubleshoot.motion.UniformVelocityMotion;
 import com.doubleshoot.object.ITaggedObject;
 import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.GameObjectType;
-import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
 
 public class RevengeBehavior implements IBehavior {
@@ -41,7 +40,7 @@ public class RevengeBehavior implements IBehavior {
 	
 	@Override
 	public void onActivated(BaseShooter host, Harmful source, float damage) {
-		if (host.getShape().getY() > mLimitY)
+		if (damage <= 0 || host.getShape().getY() > mLimitY)
 			return;
 		
 		if (host instanceof Alien) {

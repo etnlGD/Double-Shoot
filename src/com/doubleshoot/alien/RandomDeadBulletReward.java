@@ -6,11 +6,12 @@ import com.doubleshoot.behavior.IBehavior;
 import com.doubleshoot.shooter.BaseShooter;
 import com.doubleshoot.shooter.Harmful;
 
+// Dead
 public class RandomDeadBulletReward implements IBehavior {
 	private static Random sRandom = new Random();
 	
 	@Override
-	public void onActivated(BaseShooter host, Harmful source) {
+	public void onActivated(BaseShooter host, Harmful source, float damage) {
 		boolean hasReward = true;
 		for (int i = 0; i < 3; i++) {
 			hasReward &= sRandom.nextBoolean();

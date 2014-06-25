@@ -2,7 +2,6 @@ package com.doubleshoot.prefab;
 
 import static com.doubleshoot.body.SimpleBodyBuilder.newBox;
 
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.math.Vector2;
@@ -41,25 +40,19 @@ public class InPlaceRewardLoader implements GOFactoryLoader<Reward> {
 		RewardFactory rewardFactory = new RewardFactory(pPolicy);
 		rewardFactory.setBodyFactory(newBox(30, 30, mRewardDef));
 		rewardFactory.setShapeFactory(shapeFactory);
-		return rewardFactory;		
+		return rewardFactory;
 	}
 	
 	private ShapeFactory checkShape(VertexBufferObjectManager vbom,
 			IRegionManager regions, String name) {
-		ITextureRegion region = regions.getRegion(name);
-		if (region == null)
-			throw new RuntimeException("No region found");
-		
-		TexturedSpriteFactory factory = new TexturedSpriteFactory(vbom, region);
-		factory.textureName = name;	// TODO remove
-		return factory;
+		return new TexturedSpriteFactory(vbom, regions, name);
 	}
 	
 	private GOFactory<Reward>
 	loadScatterBullet(VertexBufferObjectManager vbom, IRegionManager regions) {
 		BulletEmitter emitter = new BulletEmitter();
 		BulletDistribution distrib = new ScatterDistribution(-120, -60, 3);
-		Barrel barrel = new Barrel(distrib, 
+		Barrel barrel = new Barrel(distrib,
 				mBulletRegistry.getFilteredFactory("RedRound"));
 		barrel.setBarrelPosition(30, 0);
 		barrel.setFrozenCycle(0.3f);

@@ -9,12 +9,6 @@ import com.doubleshoot.body.BodyBuilder;
 import com.doubleshoot.body.SimpleBodyBuilder;
 import com.doubleshoot.object.GOEnvironment;
 import com.doubleshoot.object.GameObject;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.doubleshoot.body.BodyBuilder;
-import com.doubleshoot.body.SimpleBodyBuilder;
-import com.doubleshoot.object.GameObject;
-import com.doubleshoot.object.GOEnvironment;
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 
 public class Border extends GameObject {
 

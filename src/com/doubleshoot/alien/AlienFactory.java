@@ -37,6 +37,4 @@ public class AlienFactory extends ShooterFactory<Alien> {
 	protected Alien createObject(GOEnvironment env, IAreaShape shape, Body body) {
 		return new Alien(shape, body, env);
 	}
-
-}
 }

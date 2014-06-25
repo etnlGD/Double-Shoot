@@ -1,9 +1,6 @@
 package com.doubleshoot.bullet;
 
-<<<<<<< HEAD
-=======
 import org.andengine.engine.handler.IUpdateHandler;
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 import org.andengine.entity.IEntity;
 import org.andengine.entity.shape.IAreaShape;
 
@@ -11,11 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.doubleshoot.game.QuickSortScene;
-<<<<<<< HEAD
-=======
 import com.doubleshoot.motion.IMotion;
 import com.doubleshoot.movable.MovableBody;
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 import com.doubleshoot.object.GOEnvironment;
 import com.doubleshoot.object.GameObject;
 import com.doubleshoot.shooter.Harmful;
@@ -26,24 +20,16 @@ public class Bullet extends GameObject implements Harmful {
 	private boolean mPenetrating;
 	private BulletListener mListener;
 	private IEntity mShooter;
-<<<<<<< HEAD
 	
-	public Bullet(float damage, boolean penetrating, IAreaShape pBulletShape, Body body, GOEnvironment pEnv) {
-=======
 	private IUpdateHandler mMotionUpdater;
 	
 	public Bullet(float damage, boolean penetrating, IAreaShape pBulletShape, Body body, GOEnvironment pEnv,
 			BulletListener pListener) {
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 		super(body, attachToBulletParent(pEnv, pBulletShape), pEnv);
 		
 		assert(pBulletShape != null);
 		mDamage = damage;
 		mPenetrating = penetrating;
-<<<<<<< HEAD
-	}
-	
-=======
 		
 		mListener = pListener;
 	}
@@ -55,7 +41,6 @@ public class Bullet extends GameObject implements Harmful {
 		getShape().registerUpdateHandler(mMotionUpdater);
 	}
 
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 	private static IAreaShape attachToBulletParent(
 			GOEnvironment pEnv, IAreaShape pBulletShape) {
 		QuickSortScene scene = (QuickSortScene) pEnv.getScene();
@@ -79,14 +64,11 @@ public class Bullet extends GameObject implements Harmful {
 		
 		return 1;
 	}
-<<<<<<< HEAD
-=======
 	
 	public void onShooted() {
 		if (mListener != null)
 			mListener.onShooted(this);
 	}
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03
 
 	@Override
 	protected int onContactEnd(GameObject other, int param) {
@@ -110,8 +92,4 @@ public class Bullet extends GameObject implements Harmful {
 	public IEntity getShooter() {
 		return mShooter;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03

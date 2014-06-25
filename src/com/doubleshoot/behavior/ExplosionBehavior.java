@@ -37,7 +37,7 @@ public class ExplosionBehavior implements IBehavior, IAnimationListener {
 	
 	@Override
 	public void onActivated(BaseShooter host, Harmful source, float damage) {
-		if (host.hasTag("Huge"))
+		if (damage <= 0 || host.hasTag("Huge"))
 			return; // TODO ugly fix
 		
 		IAreaShape exploded = host.getShape();

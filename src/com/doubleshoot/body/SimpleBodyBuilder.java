@@ -26,8 +26,4 @@ public class SimpleBodyBuilder {
 		return bodyBuilder;
 	}
 	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6da0dafcb82e5b50baebcdf17327e12f0dce4b03

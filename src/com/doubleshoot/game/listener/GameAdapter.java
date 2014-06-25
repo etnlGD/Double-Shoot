@@ -1,12 +1,11 @@
 package com.doubleshoot.game.listener;
 
-import com.doubleshoot.shooter.BaseShooter;
+import com.doubleshoot.hero.Hero;
 
 public class GameAdapter implements IGameListener {
 
 	@Override
-	public void onGameStart(BaseShooter pLeftHero, BaseShooter pRightHero) {
-		
+	public void onGameStart(Hero pLeftHero, Hero pRightHero) {
 	}
 	
 	@Override
