@@ -61,7 +61,7 @@ public class TexturedSpriteFactory implements ShapeFactory {
 	}
 	
 	private void onShapeRecycled(IAreaShape shape) {
-		Log.i("TextureSpriteFactory", "Recycled one: " + textureName + ", rest: " + mFreeList.size());
+//		Log.i("TextureSpriteFactory", "Recycled one: " + textureName + ", rest: " + mFreeList.size());
 		mFreeList.add(shape);
 		shape.reset();
 		shape.clearUpdateHandlers();
@@ -102,11 +102,6 @@ public class TexturedSpriteFactory implements ShapeFactory {
 		} else {
 			shape = newShape();
 			++mProfileNewCount;
-			
-			if (mProfileNewCount % 10 == 1) {
-				Log.i("TextureSpriteFactory",
-						"New shape<" + textureName + "> count: " + mProfileNewCount);
-			}
 		}
 		
 		return shape;

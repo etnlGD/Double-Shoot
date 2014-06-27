@@ -6,6 +6,8 @@ import static com.doubleshoot.game.GameActivity.CAMERA_WIDTH;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Vector2;
 import com.doubleshoot.alien.Alien;
 import com.doubleshoot.body.BodyBuilder;
@@ -31,6 +33,7 @@ import com.doubleshoot.shooter.GameObjectType;
 import com.doubleshoot.shooter.Harmful;
 import com.doubleshoot.shooter.TagManager;
 import com.doubleshoot.troop.RandomTroopGenerator;
+import com.doubleshoot.troop.Randomizer;
 import com.doubleshoot.troop.TroopDispatcher;
 import com.doubleshoot.troop.TroopGenerator;
 
@@ -44,9 +47,23 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 	private GOEnvironment mGOEnv;
 	private HeroDeadListener mHeroDeadListener;
 	
-	private TroopGenerator mTroopGenerator;
+	private TroopDispatcher mTroopDispatcher;
 	private Hero mLeftHero;
 	private Hero mRightHero;
+	
+	private final class ChangeGenerator implements Runnable {
+		private TroopGenerator mGenerator;
+		
+		public ChangeGenerator(Randomizer.Float sleepTime) {
+			mGenerator = RandomTroopGenerator.create(sleepTime);
+		}
+		
+		@Override
+		public void run() {
+			Log.i("Game.ChangeGenerator", "TroopGenerator changed");
+			mTroopDispatcher.setTroopGenerator(mGenerator);
+		}
+	}
 	
 	public Game(GOFactory<Hero> pHeroFactory, GOEnvironment pEnv,
 			GORegistry<Bullet> pBulletRegistry, GORegistry<Alien> pAlienRegistry) {
@@ -55,8 +72,8 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		mAlienRegistry = pAlienRegistry;
 		mBulletRegistry = pBulletRegistry;
 		
-		mTroopGenerator = RandomTroopGenerator.create();
 		mHeroDeadListener = new HeroDeadListener(1, this);
+		mTroopDispatcher = new TroopDispatcher(mGOEnv, mAlienRegistry);
 		
 		BodyBuilder builder = SimpleBodyBuilder.newBox(CAMERA_WIDTH, CAMERA_HEIGHT/2,
 				FixtureFactory.sensor(GameObjectType.AllEnemyObject.getSharedFilter()));
@@ -126,7 +143,12 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		mHeroDeadListener.reset();
 		mGOEnv.cancelAll();
 		
-		new TroopDispatcher(mGOEnv, mAlienRegistry, mTroopGenerator).run();
+//		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(2.f, 0.25f)));
+		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(1.5f, 0.3f)), 0f);
+		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(1.f, 0.4f)), 60f);
+		
+		mGOEnv.schedule(mTroopDispatcher);
+		
 		super.onGameStart(pLeftHero, pRightHero);
 	}
 

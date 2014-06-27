@@ -321,9 +321,9 @@ public class GameActivity extends BaseGameActivity
 	
 	@Override
 	public void onBackPressed() {
-		if (mGame.isPaused())
+		if (mGame.isPaused()) {
 			super.onBackPressed();
-		else {
+		} else {
 			mGame.onGamePause();
 			this.runOnUiThread(new Runnable() {
 				
