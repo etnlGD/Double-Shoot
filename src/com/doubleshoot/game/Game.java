@@ -143,8 +143,8 @@ public class Game extends CompositeGameListener implements ScorerFinder {
 		mHeroDeadListener.reset();
 		mGOEnv.cancelAll();
 		
-//		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(2.f, 0.25f)));
-		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(1.5f, 0.3f)), 0f);
+		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(2.f, 0.25f)));
+		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(1.5f, 0.3f)), 10f);
 		mGOEnv.schedule(new ChangeGenerator(Randomizer.uniform(1.f, 0.4f)), 60f);
 		
 		mGOEnv.schedule(mTroopDispatcher);

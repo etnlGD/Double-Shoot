@@ -114,6 +114,7 @@ public class GameActivity extends BaseGameActivity
 		if (mGame != null)
 			mGame.onGamePause();
 		
+		MobclickAgent.onPause(this);
 		super.onPause();
 	}
 	
