@@ -9,16 +9,20 @@ public class TroopDispatcher implements Runnable {
 	private GOEnvironment mEnvironment;
 	private GORegistry<Alien> mAlienRegistry;
 	
-	public TroopDispatcher(GOEnvironment pEnv,
-			GORegistry<Alien> pAlienRegistry,
-			TroopGenerator pGenerator) {
+	public TroopDispatcher(GOEnvironment pEnv, GORegistry<Alien> pAlienRegistry) {
 		mEnvironment = pEnv;
 		mAlienRegistry = pAlienRegistry;
-		mGenerator = pGenerator;
+	}
+	
+	public void setTroopGenerator(TroopGenerator generator) {
+		mGenerator = generator;
 	}
 	
 	@Override
 	public void run() {
+		if (mGenerator == null)
+			return;
+		
 		final ITroop troop = mGenerator.nextTroop(mEnvironment, mAlienRegistry);
 		mEnvironment.schedule(new Runnable() {
 			

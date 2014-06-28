@@ -4,14 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.doubleshoot.prefab.AlienType;
 
 public class RandomTroopGenerator {
-//		mWeightType = new WeightedRandom<String>();
-//		mWeightType.addData(1.5f, AlienType.NO_BULLET);
-//		mWeightType.addData(2, AlienType.COMMON);
-//		mWeightType.addData(0.4f, AlienType.WITH_DEAD);
-//		mWeightType.addData(0.8f, AlienType.REVENGER);
-	public static TroopGenerator create() {
-		Randomizer.Float sleepTime = Randomizer.uniform(1.f, .5f);
-		
+
+	public static TroopGenerator create(Randomizer.Float sleepTime) {
+//		Randomizer.Float sleepTime = Randomizer.uniform(1.f, .5f);
 		CompositeTroopGenerator compositeGenerator = new CompositeTroopGenerator();
 		{	// Common Alien
 			CompositeTroopGenerator commonGenerator = new CompositeTroopGenerator();
