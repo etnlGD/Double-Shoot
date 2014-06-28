@@ -72,7 +72,9 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 	private ITiledTextureRegion mFire;
 	private ITextureRegion[] mTitle;
 	private ButtonSprite mPlayButton;
-
+	private boolean mPushed;
+	private MoveXModifier flightOut;
+	
 	@Override
 	protected void onCreate(final Bundle pSavedInstanceState) {
 		super.onCreate(pSavedInstanceState);
@@ -87,6 +89,9 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 			mPlayButton.setPosition(vec.x, vec.y);
 		}
 		MobclickAgent.onResume(this);
+		mPushed = false;
+		if (flightOut != null)
+			flightOut.reset();
 	}
 	
 	@Override
@@ -227,7 +232,7 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 		
 		IEntityModifier flightIn = new MoveXModifier(
 				1f, flightPos[0], flightPos[1], EaseBackOut.getInstance());
-		final IEntityModifier flightOut = new MoveXModifier(
+		flightOut = new MoveXModifier(
 				1f, flightPos[1], flightPos[2], this, EaseBackIn.getInstance());
 		
 		mPlayButton.registerEntityModifier(
@@ -239,7 +244,9 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 					float pTouchAreaLocalY) {
-				flightOut.reset();
+				if (mPushed) return;
+				
+				mPushed = true;
 				pButtonSprite.registerEntityModifier(flightOut);
 			}
 		});
@@ -254,7 +261,7 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 		pScene.registerTouchArea(mPlayButton);
 		pCallback.onCreateSceneFinished(pScene);
 	}
-
+	
 	@Override
 	public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pCallback) {
 		pCallback.onPopulateSceneFinished();
@@ -262,7 +269,7 @@ public class GameStartActivity extends BaseGameActivity implements IEntityModifi
 
 	@Override
 	public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
-		
+
 	}
 
 	private Vector2 getCenterAlignedX(ITextureRegion pTextureRegion) {
