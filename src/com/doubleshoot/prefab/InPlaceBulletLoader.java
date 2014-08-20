@@ -79,9 +79,9 @@ public class InPlaceBulletLoader implements GOFactoryLoader<Bullet> {
 	
 	private GOFactory<Bullet> loadLaser(VertexBufferObjectManager vbom, IRegionManager regions) {
 		BulletPrototype prototype = new BulletPrototype();
-		prototype.setDamage(40);
+		prototype.setDamage(55);
 		prototype.setPenetrating(true);
-		prototype.setSpeed(7);
+		prototype.setSpeed(20);
 		prototype.setBodyFactory(newBox(8, 30,
 				PhysicsFactory.createFixtureDef(0.1f, 0, 1, true)));
 		prototype.setShapeFactory(

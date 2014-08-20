@@ -105,7 +105,7 @@ public class InPlaceRewardLoader implements GOFactoryLoader<Reward> {
 		Barrel barrel = new Barrel(distrib,
 				mBulletRegistry.getFilteredFactory("Laser"));
 		barrel.setBarrelPosition(0, 0);
-		barrel.setFrozenCycle(0.3f);
+		barrel.setFrozenCycle(0.5f);
 		emitter.setBarrel(0, barrel);
 		
 		return newReward(new ReplaceBullet(emitter),

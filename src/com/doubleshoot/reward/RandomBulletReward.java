@@ -13,10 +13,10 @@ import com.doubleshoot.shooter.Harmful;
 
 public class RandomBulletReward implements IBehavior {
 	private static Random sRandom = new Random();
-	private final int mVoteTimes;
+	private final float mProbability;
 
-	public RandomBulletReward(int pVoteTimes) {
-		mVoteTimes =  pVoteTimes;
+	public RandomBulletReward(float pProbability) {
+		mProbability = pProbability;
 	}
 	
 	private ArrayList<GOFactory<Reward>> mRewardFactories
@@ -31,11 +31,7 @@ public class RandomBulletReward implements IBehavior {
 		if (damage <= 0 || mRewardFactories.isEmpty())
 			return;
 		
-		boolean hasReward = true;
-		for (int i = 0; i < mVoteTimes; i++) {
-			hasReward &= sRandom.nextBoolean();
-		}
-		if (hasReward) {
+		if (sRandom.nextFloat() < mProbability) {
 			int index = sRandom.nextInt(mRewardFactories.size());
 			GOFactory<Reward> f = mRewardFactories.get(index);
 			IAreaShape shape = host.getShape();

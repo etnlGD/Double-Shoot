@@ -106,13 +106,14 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addDeadBehavior(new DeadBulletBehavior(
 				mBulletRegistry.getFilteredFactory("DeadBullet"), 6));
+		filter.addDeadBehavior(newBulletReward(1f/25, "MissileReward"));
 		pipeline.addFilter(filter);
 		
 		return pipeline;
 	}
 	
-	private IBehavior newBulletReward(int voteTimes, String ...rewardNames) {
-		RandomBulletReward rewards = new RandomBulletReward(voteTimes);
+	private IBehavior newBulletReward(float pProbability, String ...rewardNames) {
+		RandomBulletReward rewards = new RandomBulletReward(pProbability);
 		for (int i = 0; i < rewardNames.length; i++) {
 			rewards.addRewardType(
 					mRewardRegistry.getFilteredFactory(rewardNames[i]));
@@ -122,12 +123,12 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 	
 	private GOFactory<Alien>
 	loadWhite(VertexBufferObjectManager vbom, IRegionManager regions) {
-		AlienFactory af = newAlien(150, 120, 8,
+		AlienFactory af = newAlien(150, 160, 8,
 				checkShape(vbom, regions, "Alien.White"), newBodyFactory(3, 16));
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addWoundedBehavior(new RevengeBehavior(250, 240));
-		filter.addDeadBehavior(newBulletReward(4, "LaserReward"));
+		filter.addDeadBehavior(newBulletReward(1f/30, "LaserReward"));
 		pipeline.addFilter(filter);
 		
 		return pipeline;
@@ -140,7 +141,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		GOPipeline<Alien> pipeline = new GOPipeline<Alien>(af);
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		filter.addDeadBehavior(
-				newBulletReward(4, "ScatterReward", "MissileReward", "ParallelReward"));
+				newBulletReward(1f/20, "ScatterReward", "ParallelReward"));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
@@ -179,7 +180,7 @@ public class InPlaceAlienLoader implements GOFactoryLoader<Alien> {
 		ShooterBehaviorFilter filter = new ShooterBehaviorFilter();
 		// bomb
 		filter.addDeadBehavior(new BombBehavior(1, shapeFactory));
-		filter.addDeadBehavior(newBulletReward(1, "HealReward"));
+		filter.addDeadBehavior(newBulletReward(1f/1.5f, "HealReward"));
 		pipeline.addFilter(filter);
 		return pipeline;
 	}
