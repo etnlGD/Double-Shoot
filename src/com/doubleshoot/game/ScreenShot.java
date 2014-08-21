@@ -49,6 +49,7 @@ public class ScreenShot implements IDrawHandler {
 			mTextureTarget.end(pGLState);
 			
 			mCapturePending = false;
+			mBitmap = null;
 		}
 		
 		if (shouldSaveImage()) {
