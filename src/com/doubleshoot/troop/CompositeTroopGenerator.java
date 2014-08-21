@@ -23,6 +23,7 @@ public class CompositeTroopGenerator implements TroopGenerator {
 		mPrevious = mWeights.shuffle(mRandom);
 		return mPrevious.nextTroop(pEnv, pAlienRegistry);
 	}
+	
 	@Override
 	public float nextSleepTime() {
 		if (mPrevious != null)
